@@ -1,0 +1,27 @@
+cache:
+  untracked: true
+  paths:
+    - /cache
+stages:
+  - dev
+  - prod
+test:
+  stage: dev
+  script:
+    - sudo rsync -r -a --delete --exclude .git/ --exclude storage/logs/* --exclude vendor/ --exclude .env ./ /var/www/html/development/admin
+    - cd /var/www/html/development/admin && sudo composer install && sudo php artisan migrate
+    - sudo chown -R nginx:nginx /var/www/html/development/admin && sudo chmod -R 775 /var/www/html/development/admin/storage
+  only:
+    - develop
+  tags:
+    - happiness
+production:
+  stage: prod
+  script:
+    - sudo rsync -r -a --delete --exclude .git/ --exclude storage/logs/* --exclude vendor/ --exclude .env ./ /var/www/html/production/admin
+    - cd /var/www/html/production/admin && sudo composer install && sudo php artisan migrate
+    - sudo chown -R nginx:nginx /var/www/html/production/admin && sudo chmod -R 775 /var/www/html/production/admin/storage
+  only:
+    - master
+  tags:
+    - happiness
