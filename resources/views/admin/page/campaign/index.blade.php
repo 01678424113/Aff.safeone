@@ -91,7 +91,8 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="btn-group">
-                                            <a href="{{route('campaign.create')}}" class="btn sbold green"> Thêm chiến dịch
+                                            <a href="{{route('campaign.create')}}" class="btn sbold green"> Thêm chiến
+                                                dịch
                                                 <i class="fa fa-plus"></i>
                                             </a>
                                         </div>
@@ -134,9 +135,12 @@
                                     <th>STT</th>
                                     <th>Tên chiến dịch</th>
                                     <th>Dịch vụ</th>
-                                    <th>Trạng thái</th>
                                     <th>Thời gian tạo</th>
-                                    <th>Hành động</th>
+                                    <th>Trạng thái</th>
+                                    @if(Auth::user()->getRoleNames()[0] == 'admin')
+                                        <th>Hành động</th>
+                                    @endif
+                                    <th>Tham gia</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -154,48 +158,65 @@
                                         <td>{{ $item->category_name }}</td>
                                         <td>{{ $item->created_at }}</td>
                                         <td>
-                                            <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                                <input type="checkbox" class="checkboxes" @if($item->status ?? '') checked @endif value="1"/>
-                                                <span></span>
-                                            </label>
+                                            <button class="btn btn-xs @if($item->status == 1) btn-success @else btn-warning @endif">
+                                                <small>@if($item->status == 1) Hoạt động @else Tạm ngưng @endif</small>
+                                            </button>
                                         </td>
-                                        <td>
-                                            <a href="{{route('campaign.show',['id'=>$item->id])}}"
-                                               class="btn btn-xs btn-warning"><i
-                                                        class="fa fa-eye"></i></a>
-                                            <a href="{{route('campaign.edit',['id'=>$item->id])}}"
-                                               class="btn btn-xs btn-info"><i
-                                                        class="fa fa-pencil"></i></a>
-                                            <button type="button" data-toggle="modal"
-                                                    data-target="#myModal-{{$item->id}}"
-                                                    class="btn btn-xs btn-danger"><i
-                                                        class="fa fa-times"></i></button>
-                                            <div id="myModal-{{$item->id}}" class="modal fade" role="dialog">
-                                                <div class="modal-dialog">
-                                                    <form action="{{route('campaign.destroy',['id'=>$item->id])}}"
-                                                          method="get">
-                                                        <!-- Modal content-->
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <button type="button" class="close"
-                                                                        data-dismiss="modal">&times;
-                                                                </button>
-                                                                <h4 class="modal-title">Xóa</h4>
+                                        @if(Auth::user()->getRoleNames()[0] == 'admin')
+                                            <td>
+                                                <a href="{{route('campaign.show',['id'=>$item->id])}}"
+                                                   class="btn btn-xs btn-warning"><i
+                                                            class="fa fa-eye"></i></a>
+                                                <a href="{{route('campaign.edit',['id'=>$item->id])}}"
+                                                   class="btn btn-xs btn-info"><i
+                                                            class="fa fa-pencil"></i></a>
+                                                <button type="button" data-toggle="modal"
+                                                        data-target="#myModal-{{$item->id}}"
+                                                        class="btn btn-xs btn-danger"><i
+                                                            class="fa fa-times"></i></button>
+                                                <div id="myModal-{{$item->id}}" class="modal fade" role="dialog">
+                                                    <div class="modal-dialog">
+                                                        <form action="{{route('campaign.destroy',['id'=>$item->id])}}"
+                                                              method="get">
+                                                            <!-- Modal content-->
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <button type="button" class="close"
+                                                                            data-dismiss="modal">&times;
+                                                                    </button>
+                                                                    <h4 class="modal-title">Xóa</h4>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <p>Bạn muốn xóa chiến dịch này?</p>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-default"
+                                                                            data-dismiss="modal">Hủy
+                                                                    </button>
+                                                                    <button type="submit" class="btn btn-danger">Tiếp
+                                                                        tục
+                                                                    </button>
+                                                                </div>
                                                             </div>
-                                                            <div class="modal-body">
-                                                                <p>Bạn muốn xóa chiến dịch này?</p>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-default"
-                                                                        data-dismiss="modal">Hủy
-                                                                </button>
-                                                                <button type="submit" class="btn btn-danger">Tiếp tục
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </form>
+                                                        </form>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            </td>
+                                        @endif
+                                        <td>
+                                            <form action="{{route('joinCampaign',['campaign_id'=>$item->id])}}"
+                                                  method="post">
+                                                @csrf
+                                                @if(in_array($item->id,$campaign_join))
+                                                    <button type="button" class="btn btn-xs btn-warning">
+                                                        <small>Đã tham gia</small>
+                                                    </button>
+                                                @else
+                                                    <button type="submit" class="btn btn-xs btn-success">
+                                                        <small>Tham gia</small>
+                                                    </button>
+                                                @endif
+                                            </form>
                                         </td>
                                     </tr>
                                     <?php $i++ ?>

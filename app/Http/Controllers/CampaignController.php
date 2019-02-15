@@ -6,6 +6,7 @@ use App\Libs\Helpers;
 use App\Models\Admin;
 use App\Models\Campaign;
 use App\Models\Category;
+use App\Models\UserCampaign;
 use App\Rules\Utf8StringRule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -47,8 +48,9 @@ class CampaignController extends Controller
             $category_id = 0;
             $arrayCategories = Category::where('id', $user->category_id)->pluck('name', 'id')->toArray();
         }
+        $campaign_join = UserCampaign::where('user_id',\Auth::user()->id)->pluck('campaign_id')->toArray();
         $title = 'Danh sách chiến dịch';
-        return view('admin.page.campaign.index', compact('data', 'arrayCategories', 'category_id','title'));
+        return view('admin.page.campaign.index', compact('data', 'arrayCategories', 'category_id','title','campaign_join'));
     }
 
     /**
@@ -74,6 +76,7 @@ class CampaignController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => ['required', new Utf8StringRule(), 'max:191', Rule::unique('campaigns')],
             'category_id' => 'required',
+            'root_url' => 'required',
         ]);
         if ($validator->fails()) {
             $error = Helpers::getValidationError($validator);
@@ -83,6 +86,7 @@ class CampaignController extends Controller
         $model->name = $request->name;
         $model->status = isset($request->status) ? Campaign::$ACTIVE : Campaign::$UN_ACTIVE;
         $model->sort_by = $request->sort_by;
+        $model->root_url = $request->root_url;
         $model->category_id = !empty($request->category_id) ? $request->category_id : 1;
         $flag = $model->save();
         if ($flag) {
@@ -129,6 +133,7 @@ class CampaignController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => ['required', new Utf8StringRule(), 'max:191', Rule::unique('admins')->ignore($model->name, 'name')],
             'category_id' => 'required',
+            'root_url' => 'required',
         ]);
         if ($validator->fails()) {
             $error = Helpers::getValidationError($validator);
@@ -137,6 +142,7 @@ class CampaignController extends Controller
         $model->name = $request->name;
         $model->status = isset($request->status) ? Campaign::$ACTIVE : Campaign::$UN_ACTIVE;
         $model->sort_by = $request->sort_by;
+        $model->root_url = $request->root_url;
         $model->category_id = !empty($request->category_id) ? $request->category_id : 1;
         $flag = $model->save();
         if ($flag) {
@@ -258,5 +264,17 @@ class CampaignController extends Controller
         $str = trim($str, $options['delimiter']);
 
         return $options['lowercase'] ? mb_strtolower($str, 'UTF-8') : $str;
+    }
+
+    public function myCampaign()
+    {
+        $user = \Auth::user();
+        $data = Campaign::select('campaigns.*')
+            ->join('user_campaign', 'user_campaign.campaign_id', '=', 'campaigns.id')
+            ->where('user_campaign.user_id',$user->id)
+            ->orderBy('campaigns.created_at', 'DESC')
+            ->cursor();
+        $title = 'Chiến dịch của tôi';
+        return view('admin.page.campaign.myCampaign', compact('data','title'));
     }
 }

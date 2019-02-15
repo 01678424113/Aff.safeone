@@ -1,0 +1,473 @@
+html, body {
+    height: 100%;
+}
+
+#wpcm-preview-display {
+    width: 200px;
+    position: fixed;
+    top: 200px;
+    right: 50%;
+}
+
+.wpcm-preview-display.wpcm-free-form {
+    position: absolute;
+}
+
+.wpcm-preview-display.wpcm-top-middle {
+    position: fixed;
+    top: 10px;
+    left: 0;
+    right: 0;
+    width: 50px;
+    float: none;
+    margin: 0 auto;
+    z-index: 999999999999;
+}
+
+.wpcm-preview-display.wpcm-top-left {
+    position: fixed;
+    top: 10px;
+    left: 0;
+    width: 50px;
+    float: none;
+    z-index: 999999999999;
+}
+
+.wpcm-preview-display.wpcm-top-right {
+    position: fixed;
+    top: 10px;
+    right: 0;
+    width: 50px;
+    float: none;
+    z-index: 999999999999;
+}
+
+#wpcm-properties {
+    width: 400px;
+    border: 1px dashed rgb(194, 194, 194);
+    background-color: rgb(248, 248, 248);
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    /*border-top: none;*/
+    padding: 10px;
+    margin: 0 auto;
+    margin-right: -10px;
+}
+
+.wpcm-each-property {
+    margin: 15px 15px 0 15px;
+    min-height: 60px;
+    padding-bottom: 15px;
+}
+
+.wpcm-each-property:not(:last-child) {
+    border-bottom: 1px solid rgb(226, 226, 226);
+}
+
+label.wpcm-prop-label {
+    color: #5E5E5E;
+    display: block;
+    text-transform: uppercase;
+    font-size: 13px;
+}
+
+.wpcm-url-inputs, .wpcm-url-inputs-2 {
+    width: 260px;
+}
+
+.wpcm-action-menu {
+    padding-top: 10px;
+}
+
+.wpcm-url-inputs div, .wpcm-url-inputs-2 div {
+    width: 100%;
+}
+
+.wpcm_upload_image_button:hover {
+    cursor: pointer;
+}
+
+.wpcm_upload_image_button {
+    float: left;
+    width: 25px;
+    height: 25px;
+    background: #ffffff;
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    line-height: 16px;
+    border-color: #CACACA;
+    color: #777777;
+    font-size: 8px;
+    padding: 0;
+    outline: none
+}
+
+.wpcm-link-img {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    /*height: 30px;*/
+    /*width: 30px;*/
+
+    height: 100%;
+    width: 100%;
+    border-radius: 100% !important;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+}
+
+.wpcm-link-img:hover, .wpcm-link-img-preview:hover {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}
+
+.wpcm-link-img-preview {
+    float: left;
+    width: 25px !important;
+    height: 25px !important;
+    background-color: #F1F1F1;
+    margin-right: 2px;
+    border: 1px solid #777777;
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    color: transparent;
+    box-shadow: 0px 0px 1px 1px rgba(184, 184, 184, 0.65);
+}
+
+.wpcm-url-inputs input, .wpcm-url-inputs-2 input {
+    float: left;
+}
+
+.wpcm-main-container {
+    min-width: 925px;
+}
+
+.wpcm-pull-left {
+    float: left;
+}
+
+.wpcm-pull-right {
+    float: right;
+}
+
+.wpcm-preview-menu.circleMenu-closed li:first-child {
+    background-color: #ffffff;
+    font-weight: bold;
+    font-family: arial black;
+    font-size: 200%;
+    background-image: url(images/trigger_icon.png);
+    border-color: #fff;
+    border-width: 0px;
+    border-style: solid;
+    box-shadow: 0 0 2px 1px #aaa;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    background-size: 100% 100%;
+    transition: none !Important;
+}
+
+.wpcm-preview-menu.circleMenu-open li:first-child {
+    background-image: url(images/trigger_icon_opened.png);
+    background-color: #ffffff;
+    font-weight: bold;
+    font-family: arial black;
+    font-size: 200%;
+    border-color: #fff;
+    border-width: 0px;
+    border-style: solid;
+    box-shadow: 0 0 2px 1px #aaa;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    background-size: 100% 100%;
+}
+
+.wpcm-preview-menu li {
+    background: transparent;
+    color: #fff;
+    font-size: 25px;
+}
+
+.wpcm-preview-menu li a {
+    text-decoration: none;
+    color: #ffffff;
+    /*width: 40px;*/
+    /*height: 40px;*/
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+}
+
+.wpcm-preview-menu li:first-child a {
+    text-decoration: none;
+    display: none;
+}
+
+.wpcm-each-link-edit {
+}
+
+
+.wpcm-aggregated-props select {
+    width: 120px;
+}
+
+input.wpcm-css-open, input.wpcm-css-closed {
+    width: 170px;
+    margin-right: 10px;
+}
+
+.wpcm-divider-line {
+    margin-top: 20px;
+    border-top: 1px dashed #C8C8C8;
+    margin-bottom: 25px;
+    margin-left: -10px;
+}
+
+.wpcm-main-plugin-menu {
+    padding: 0 15px 0 15px;
+}
+
+.wpcm-main-plugin-menu input[type=text] {
+    width: 360px;
+}
+
+.wpcm-section-title {
+    height: 35px;
+    padding: 20px 10px 0px 10px;
+    font-size: 17px;
+    color: #797979;
+}
+
+.wpcm-history-list {
+    padding: 10px;
+}
+
+.wpcm-table-action-menu a {
+    margin-right: 10px;
+}
+
+.wpcm-table-action-menu a.wpcm-delete-item {
+    color: #DF5F5F;
+}
+
+#wpcm_promo {
+    padding-right: 10px;
+    margin-top: 15px;
+    width: 390px;
+    margin-bottom: 10px;
+}
+
+#wpcm_promo ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-left: 10px;
+}
+
+#wpcm_promo ul li {
+    display: inline-block;
+    padding: 0 10px;
+
+}
+
+#wpcm_promo ul li:not(:last-child) {
+    border-right: 1px solid;
+}
+
+.wpcm_c_grey {
+    color: #797979;
+}
+
+.wpcm_promo_upgrade {
+    text-align: left;
+    /*width: 245px;*/
+}
+
+.wpcm-each-property a {
+    text-decoration: none;
+}
+
+.wpcm_promo_upgrade a {
+    background-color: #05BB6F;
+    text-decoration: none;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    padding: 3px 5px 3px 5px;
+    color: #ffffff;
+    cursor: pointer;
+    border: 1px solid #05ab61;
+}
+
+.wpcm_promo_upgrade a:hover {
+    background-color: #05af60;
+    border: 1px solid #05a359;
+    box-shadow: 1px 1px 1px 1px rgba(92, 92, 92, 0.21);
+}
+
+.wpcm-trigger_icon > div {
+    margin-right: 10px;
+}
+
+a.wpcm-each-link:focus {
+    color: #124964;
+    -webkit-box-shadow: none !Important;
+    box-shadow: none : !important;
+
+}
+
+.wpcm-trial-links-limit {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.wpcm-ho-hover {
+    pointer-events: none;
+}
+
+.pos-options ul {
+    padding: 0 34px !important;
+    list-style: circle;
+}
+
+.pos-options ul p {
+    margin: 0;
+}
+
+/** utils **/
+
+.wpcm-help-text {
+    font-style: italic;
+    color: #757575;
+}
+
+.clearfix:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
+
+.clearfix {
+    display: inline-block;
+}
+
+/* start commented backslash hack \*/
+* html .clearfix {
+    height: 1%;
+}
+
+.clearfix {
+    display: block;
+}
+
+/** tabs **/
+
+.wpcm-tabs-menu {
+    height: 30px;
+    float: left;
+    clear: both;
+    margin-bottom: 0;
+}
+
+.wpcm-tabs-menu li {
+    height: 28px;
+    line-height: 30px;
+    float: left;
+    margin-right: 10px;
+    background-color: #ccc;
+    border-top: 1px solid #d4d4d1;
+    border-right: 1px solid #d4d4d1;
+    border-left: 1px solid #d4d4d1;
+    border-bottom: 1px solid #d4d4d1;
+}
+
+.wpcm-tabs-menu li.current {
+    position: relative;
+    background-color: #E2E2E2;
+    border-bottom: 1px solid #E2E2E2;
+    z-index: 5;
+}
+
+.wpcm-tabs-menu li a {
+    padding: 0 10px;
+    text-transform: uppercase;
+    color: #9B9B9B;
+    text-decoration: none;
+}
+
+.wpcm-tabs-menu .current a {
+    color: #5F5F5F;
+}
+
+.wpcm-tab {
+    border: 1px solid #d4d4d1;
+    background-color: #fff;
+    float: left;
+    margin-bottom: 20px;
+    width: auto;
+}
+
+.wpcm-tab-content {
+    /*padding: 20px;*/
+
+}
+.wpcm-hidden{
+    display: none;
+}
+
+#wpcm-tab-1 {
+    display: block;
+}
+
+.each-saved-wp-menu {
+    margin: 0;
+    background-color: #CCCCCC;
+    border-bottom: 1px solid #F8F8F8;
+    padding: 2px 10px;
+}
+
+.wpcm-small-link-text {
+    line-height: 25px;
+    width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    white-space: nowrap;
+    padding-left: 5px;
+}
+
+.wpcm-backdrop {
+    position: absolute;
+    height: 100%;
+    width: 120%;
+    top: 0;
+    background-color: #000000;
+    opacity: 0.1;
+    left: -25px;
+    display: none;
+    z-index: 99999;
+}
+
+.bm-selected-menu{
+    background-color: #8BC5DC;
+}
+
+.tab .wpcm-prop-container{
+    padding: 10px;
+    background-color: #E2E2E2;
+}
+
+.wpcm-prop-container p{
+    margin-bottom: 0;
+}
+

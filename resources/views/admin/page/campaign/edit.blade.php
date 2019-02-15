@@ -106,6 +106,15 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
+                                        <label class="control-label col-md-3">Link gốc
+                                            <span class="required"> * </span>
+                                        </label>
+                                        <div class="col-md-4">
+                                            <input type="url" name="root_url" data-required="1" value="{{$campaign->root_url}}" required
+                                                   class="form-control"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
                                         <label class="control-label col-md-3">Trạng thái
                                             <span class="required"> * </span>
                                         </label>

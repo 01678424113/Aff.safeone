@@ -29,7 +29,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/admin-manager';
 
     /**
      * Create a new controller instance.
@@ -47,7 +47,7 @@ class LoginController extends Controller
         $credentials['status'] = Admin::$ACTIVE_STATUS;
 
         if (Auth::attempt($credentials, $request->remember)) {
-            return redirect()->intended('/home');
+            return redirect()->intended('/admin-manager');
         }else{
             return redirect()->back()->with('error','Tài khoản không chính xác hoặc đã bị khóa');
         }
