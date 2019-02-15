@@ -8,7 +8,7 @@
         @include('admin.layouts.theme-panel')
         <!-- END THEME PANEL -->
             <h1 class="page-title"> {{$title}}
-                <small>quyền</small>
+                <small>vai trò</small>
             </h1>
             <div class="page-bar">
                 <ul class="page-breadcrumb">

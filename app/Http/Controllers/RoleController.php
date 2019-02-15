@@ -34,7 +34,7 @@ class RoleController extends Controller
     public function create()
     {
         $permissions = Permission::all();
-        $title = 'Tạo quyền';
+        $title = 'Tạo vai trò';
         return view('admin.page.decentralized-management.role.create', compact('permissions','title'));
     }
 
@@ -84,7 +84,7 @@ class RoleController extends Controller
     {
         $role = Role::findOrFail($id);
         $permissions = Permission::all();
-        $title = 'Sửa quyền';
+        $title = 'Sửa vai trò';
         return view('admin.page.decentralized-management.role.edit', compact('role','permissions','title'));
     }
 

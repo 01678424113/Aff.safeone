@@ -8,7 +8,7 @@
         @include('admin.layouts.theme-panel')
         <!-- END THEME PANEL -->
             <h1 class="page-title"> {{$title}}
-                <small>chiến dịch</small>
+                <small>khách hàng</small>
             </h1>
             <div class="page-bar">
                 <ul class="page-breadcrumb">
@@ -79,10 +79,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="btn-group">
-                                            <a href="{{route('campaign.create')}}" class="btn sbold green"> Thêm chiến
-                                                dịch
-                                                <i class="fa fa-plus"></i>
-                                            </a>
+
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -120,18 +117,16 @@
                                             <span></span>
                                         </label>
                                     </th>
-                                    <th>STT</th>
-                                    <th>Tên chiến dịch</th>
-                                    <th>Số khách</th>
-                                    <th>Thời gian tạo</th>
-                                    <th>Trạng thái</th>
-                                    <th>Hành động</th>
+                                    <th> #</th>
+                                    <th> Tên</th>
+                                    <th> Email</th>
+                                    <th> Số điện thoại</th>
+                                    <th> Trạng thái</th>
+                                    <th> Note</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <?php
-                                $i = 1;
-                                ?>
+                                <?php $i = 1; ?>
                                 @foreach($data as $item)
                                     <tr class="odd gradeX">
                                         <td>
@@ -142,81 +137,23 @@
                                         </td>
                                         <td>{{ $i }}</td>
                                         <td>{{ $item->name }}</td>
-                                        <td></td>
-                                        <td>{{ $item->created_at }}</td>
+                                        <td>{{ $item->email }}</td>
+                                        <td>{{ $item->phone }}</td>
                                         <td>
-                                            <button class="btn btn-xs @if($item->status == 1) btn-success @else btn-warning @endif">
-                                                <small>@if($item->status == 1) Hoạt động @else Tạm ngưng @endif</small>
-                                            </button>
+                                            <input name="note" type="text" class="form-control"
+                                                   value="{{$item->note}}"/>
                                         </td>
                                         <td>
-                                        @if(!isset($item->affiliate[0]))
-                                                <button type="button" class="btn btn-xs btn-info btn-create-aff"
-                                                        data-campaign-id="{{$item->id}}">
-                                                    <small>Tạo link affiliate</small>
-                                                </button>
-                                                <div id="myModal-{{$item->id}}" class="modal fade"
-                                                     role="dialog">
-                                                    <div class="modal-dialog">
-                                                        <input type="hidden" name="campaign_id"
-                                                               value="{{$item->id}}">
-                                                        <!-- Modal content-->
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <button type="button" class="close"
-                                                                        data-dismiss="modal">&times;
-                                                                </button>
-                                                                <h4 class="modal-title">{{'AFF '.$item->name }}</h4>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <p class="root_url"></p>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-default"
-                                                                        data-dismiss="modal">Đóng
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            @else
-                                                <button type="button" class="btn btn-xs btn-info btn-create-aff"
-                                                        data-campaign-id="{{$item->id}}">
-                                                    <small>Xem link affiliate</small>
-                                                </button>
-                                                <div id="myModal-{{$item->id}}" class="modal fade"
-                                                     role="dialog">
-                                                    <div class="modal-dialog">
-                                                        <!-- Modal content-->
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <button type="button" class="close"
-                                                                        data-dismiss="modal">&times;
-                                                                </button>
-                                                                <h4 class="modal-title">{{'AFF '.$item->name }}</h4>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <p class=""><a href="{{route('affRedirectStep1',['aff_id'=>$item->affiliate[0]['aff_id']])}}">{{route('affRedirectStep1',['aff_id'=>$item->affiliate[0]['aff_id']])}}</a></p>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-default"
-                                                                        data-dismiss="modal">Đóng
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            @endif
+                                            <div class="">
+                                                <label>
+                                                    <input type="checkbox" @if($item->status ?? '') checked
+                                                           @endif class="make-switch" data-size="small">
+                                                </label>
+                                            </div>
                                         </td>
                                     </tr>
                                     <?php $i++ ?>
                                 @endforeach
-                                <form action="{{route('createLinkAFF')}}" id="form-create-aff"
-                                      method="post">
-                                    @csrf
-                                    <input type="hidden" name="campaign_id" value="">
-
-                                </form>
                                 </tbody>
                             </table>
                         </div>
@@ -227,27 +164,4 @@
         </div>
         <!-- END CONTENT BODY -->
     </div>
-@endsection
-@section('script')
-    <script>
-        $('.btn-create-aff').click(function () {
-            var campaign_id = $(this).attr('data-campaign-id');
-            $('input[name=campaign_id]').val(campaign_id);
-            $.ajax({
-                url: "{{route('createLinkAFF')}}",
-                type: 'post',
-                data: $('#form-create-aff').serialize()
-            }).done(function (res) {
-                if (res.status === 1) {
-                    var link = "{{route('affRedirectStep1',['aff_id'=>'aff_id'])}}";
-                    link = link.replace('aff_id', res.aff_id);
-                    $('.root_url').html('<a href="' + link + '">' + link + '</a>');
-                    $("#myModal-" + res.campaign_id).modal()
-                } else {
-                    console.log(res);
-                    alert('Link không hợp lệ');
-                }
-            });
-        });
-    </script>
 @endsection

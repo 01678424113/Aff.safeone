@@ -21,7 +21,7 @@ Route::get('/logout', 'HomeController@logout')->name('logout');
 Route::get('redirect-step-1/{aff_id}', 'AffController@affRedirectStep1')->name('affRedirectStep1');
 Route::get('/', 'LandingPageController@landingPage')->name('landingPage');
 
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['auth','permissions']], function () {
     Route::group(['prefix' => 'admin-manager'], function () {
         Route::get('/', 'HomeController@index')->name('home');
         Route::group(['prefix' => 'user-manager'], function () {
@@ -86,9 +86,11 @@ Route::group(['middleware' => ['auth']], function () {
             Route::post('update/{id}', 'RoleController@update')->name('role.update');
             Route::get('destroy/{id}', 'RoleController@destroy')->name('role.destroy');
         });
-    });
-    Route::group(['middleware' => ['permissions']], function () {
 
+        Route::group(['prefix' => 'customer'], function () {
+            Route::get('/', 'CustomerController@index')->name('customer.index');
+            Route::post('/update/{id}', 'CustomerController@update')->name('customer.update');
+        });
     });
 });
 
