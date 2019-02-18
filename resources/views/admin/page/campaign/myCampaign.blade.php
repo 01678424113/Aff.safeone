@@ -196,7 +196,7 @@
                                                                 <h4 class="modal-title">{{'AFF '.$item->name }}</h4>
                                                             </div>
                                                             <div class="modal-body">
-                                                                <p class=""><a href="{{route('affRedirectStep1',['aff_id'=>$item->affiliate[0]['aff_id']])}}">{{route('affRedirectStep1',['aff_id'=>$item->affiliate[0]['aff_id']])}}</a></p>
+                                                                <p class=""><a target="_blank" href="{{route('affRedirectStep1',['aff_id'=>$item->affiliate[0]['aff_id']])}}">{{route('affRedirectStep1',['aff_id'=>$item->affiliate[0]['aff_id']])}}</a></p>
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-default"

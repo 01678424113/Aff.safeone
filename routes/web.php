@@ -93,4 +93,5 @@ Route::group(['middleware' => ['auth','permissions']], function () {
         });
     });
 });
+Route::post('customer/store', 'CustomerController@store')->name('customer.store');
 
