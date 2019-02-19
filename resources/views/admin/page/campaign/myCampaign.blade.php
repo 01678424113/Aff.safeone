@@ -142,7 +142,7 @@
                                         </td>
                                         <td>{{ $i }}</td>
                                         <td>{{ $item->name }}</td>
-                                        <td></td>
+                                        <td><a target="_blank" class="btn-xs     btn-info" href="{{route('customer.index')}}"><small>Xem khách</small></a></td>
                                         <td>{{ $item->created_at }}</td>
                                         <td>
                                             <button class="btn btn-xs @if($item->status == 1) btn-success @else btn-warning @endif">

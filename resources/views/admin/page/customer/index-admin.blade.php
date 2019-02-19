@@ -122,6 +122,8 @@
                                     <th> Email</th>
                                     <th> Số điện thoại</th>
                                     <th> Note</th>
+                                    <th> Tổng tiền</th>
+                                    <th> Hoa hồng(%)</th>
                                     <th> Trạng thái</th>
                                     <th> Thanh toán</th>
                                 </tr>
@@ -154,29 +156,34 @@
                                                       data-id=".customer-{{$item->id}}"
                                                       class="form-control">{{$item->note}}</textarea>
                                             </td>
+                                            <td><input type="text" name="total" value="{{ $item->total }}"
+                                                       data-id=".customer-{{$item->id}}"
+                                                       class="form-control"></td>
+                                            <td><input type="text" name="percent" value="{{ $item->percent }}"
+                                                       data-id=".customer-{{$item->id}}"
+                                                       class="form-control"></td>
                                             <td>
-                                                @if($item->status == -1)
-                                                    <a class="btn-xs btn-danger">
-                                                        <small>Thất bại</small>
-                                                    </a>
-                                                @elseif($item->status == 0)
-                                                    <a class="btn-xs btn-warning">
-                                                        <small>Đang xử lý</small>
-                                                    </a>
-                                                @else
-                                                    <a class="btn-xs btn-success">
-                                                        <small>Thành công</small>
-                                                    </a>
-                                                @endif
+                                                <select name="status" id="" class="form-control"
+                                                        data-id=".customer-{{$item->id}}">
+                                                    <option value="0" @if($item->status == 0) selected @endif>Đang xử
+                                                        lý
+                                                    </option>
+                                                    <option value="1" @if($item->status == 1) selected @endif>Thành
+                                                        công
+                                                    </option>
+                                                    <option value="-1" @if($item->status == -1) selected @endif>Thất
+                                                        bại
+                                                    </option>
+                                                </select>
                                             </td>
                                             <td>
                                                 @if($item->pay == 1)
                                                     <a class="btn-xs btn-success">
-                                                        <small>Đã thanh toán</small>
+                                                        <small>Thanh toán</small>
                                                     </a>
                                                 @else
-                                                    <a class="btn-xs btn-warning">
-                                                        <small>Yêu cầu thanh toán</small>
+                                                    <a class="btn-xs btn-danger">
+                                                        <small>Chưa thanh toán</small>
                                                     </a>
                                                 @endif
                                             </td>
@@ -205,6 +212,7 @@
                 type: 'POST',
                 data: $(id).serialize(),
                 success: function (res) {
+                    alert(res);
                     console.log(res);
                 }
             });
@@ -217,6 +225,7 @@
                 type: 'POST',
                 data: $(id).serialize(),
                 success: function (res) {
+                    alert(res);
                     console.log(res);
                 }
             });
@@ -229,6 +238,7 @@
                 type: 'POST',
                 data: $(id).serialize(),
                 success: function (res) {
+                    alert(res);
                     console.log(res);
                 }
             });

@@ -20,7 +20,7 @@
             </li>
             <li class="nav-item  ">
                 <a href="javascript:;" class="nav-link nav-toggle">
-                    <i class="icon-diamond"></i>
+                    <i class="icon-user"></i>
                     <span class="title">Quản lý tài khoản</span>
                     <span class="arrow"></span>
                 </a>
@@ -39,17 +39,17 @@
             </li>
             <li class="nav-item  ">
                 <a href="javascript:;" class="nav-link nav-toggle">
-                    <i class="icon-puzzle"></i>
+                    <i class="icon-diamond"></i>
                     <span class="title">Phân quyền</span>
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
-                    <li class="nav-item  ">
+                    <li class="nav-item">
                         <a href="{{ route('role.index') }}" class="nav-link ">
                             <span class="title">Vai trò</span>
                         </a>
                     </li>
-                    <li class="nav-item  ">
+                    <li class="nav-item ">
                         <a href="{{ route('permission.index') }}" class="nav-link ">
                             <span class="title">Quyền</span>
                         </a>

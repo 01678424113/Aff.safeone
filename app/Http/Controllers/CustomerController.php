@@ -11,7 +11,11 @@ class CustomerController extends Controller
     {
         $data = Customer::getAllData();
         $title = 'Danh sách khách hàng';
-        return view('admin.page.customer.index', compact('data', 'title'));
+        if(\Auth::user()->getRoleNames()[0] == 'admin'){
+            return view('admin.page.customer.index-admin', compact('data', 'title'));
+        }else{
+            return view('admin.page.customer.index', compact('data', 'title'));
+        }
     }
 
     public function store(Request $request)
@@ -31,6 +35,26 @@ class CustomerController extends Controller
             return $customer;
         } else {
             return 'Đã tồn tại';
+        }
+    }
+
+    public function update(Request $request,$id)
+    {
+        $customer = Customer::where('id',$id)->first();
+        if(isset($customer)){
+            $customer->name = $request->name;
+            $customer->email = $request->email;
+            $customer->phone = $request->phone;
+            $customer->note = $request->note;
+            $customer->status = $request->status;
+            if(\Auth::user()->getRoleNames()[0] == 'admin'){
+                $customer->total = $request->total;
+                $customer->percent = $request->percent;
+            }
+            $customer->save();
+            return 'Cập nhập thành công';
+        }else{
+            return 'Đã xảy ra lỗi';
         }
     }
 }
