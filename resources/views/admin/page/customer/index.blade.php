@@ -139,7 +139,7 @@
                                         <form action="{{route('customer.update',['id'=>$item->id])}}" method="post"
                                               class="customer-{{$item->id}}">
                                             @csrf
-                                            <td>
+                                            <td style="text-align: center;">
                                                 <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                                     <input type="checkbox" class="checkboxes" value="1"/>
                                                     <span></span>

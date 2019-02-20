@@ -137,10 +137,11 @@
                                     <th>Dịch vụ</th>
                                     <th>Thời gian tạo</th>
                                     <th>Trạng thái</th>
+                                    <th>Tham gia</th>
                                     @if(Auth::user()->getRoleNames()[0] == 'admin')
+                                        <th>Khách hàng</th>
                                         <th>Hành động</th>
                                     @endif
-                                    <th>Tham gia</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -162,11 +163,27 @@
                                                 <small>@if($item->status == 1) Hoạt động @else Tạm ngưng @endif</small>
                                             </button>
                                         </td>
+                                        <td>
+                                            <form action="{{route('joinCampaign',['campaign_id'=>$item->id])}}"
+                                                  method="post">
+                                                @csrf
+                                                @if(in_array($item->id,$campaign_join))
+                                                    <button type="button" class="btn btn-xs btn-warning">
+                                                        <small>Đã tham gia</small>
+                                                    </button>
+                                                @else
+                                                    <button type="submit" class="btn btn-xs btn-success">
+                                                        <small>Tham gia</small>
+                                                    </button>
+                                                @endif
+                                            </form>
+                                        </td>
                                         @if(Auth::user()->getRoleNames()[0] == 'admin')
+                                            <td><a href="{{route('customer.indexAdmin',['campaign_id'=>$item->id])}}"
+                                                   class="btn-xs btn-info">
+                                                    <small>Xem</small>
+                                                </a></td>
                                             <td>
-                                                <a href="{{route('campaign.show',['id'=>$item->id])}}"
-                                                   class="btn btn-xs btn-warning"><i
-                                                            class="fa fa-eye"></i></a>
                                                 <a href="{{route('campaign.edit',['id'=>$item->id])}}"
                                                    class="btn btn-xs btn-info"><i
                                                             class="fa fa-pencil"></i></a>
@@ -203,21 +220,6 @@
                                                 </div>
                                             </td>
                                         @endif
-                                        <td>
-                                            <form action="{{route('joinCampaign',['campaign_id'=>$item->id])}}"
-                                                  method="post">
-                                                @csrf
-                                                @if(in_array($item->id,$campaign_join))
-                                                    <button type="button" class="btn btn-xs btn-warning">
-                                                        <small>Đã tham gia</small>
-                                                    </button>
-                                                @else
-                                                    <button type="submit" class="btn btn-xs btn-success">
-                                                        <small>Tham gia</small>
-                                                    </button>
-                                                @endif
-                                            </form>
-                                        </td>
                                     </tr>
                                     <?php $i++ ?>
                                 @endforeach

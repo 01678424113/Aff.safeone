@@ -14,22 +14,29 @@ use Validator;
 
 class CustomerController extends Controller
 {
+    public function indexAdmin($campaign_id)
+    {
+        $campaign = Campaign::where('id', $campaign_id)->first();
+        if (isset($campaign)) {
+            $title = 'Danh sách khách hàng';
+            $data = Customer::select('*')->where('campaign_id',$campaign_id)->paginate(20);
+            return view('admin.page.customer.index-admin', compact('data', 'title'));
+        } else {
+            return redirect()->back()->with('error', 'Đã xảy ra lỗi');
+        }
+    }
+
     public function index($campaign_id)
     {
         $campaign = Campaign::where('id', $campaign_id)->first();
         if (isset($campaign)) {
             $title = 'Danh sách khách hàng';
-            if (\Auth::user()->getRoleNames()[0] == 'admin') {
-                $data = Customer::select('*')->where('campaign_id',$campaign_id)->paginate(20);
-                return view('admin.page.customer.index-admin', compact('data', 'title'));
-            } else {
-                $data = Customer::select('customers.*')
-                    ->join('user_campaign','user_campaign.campaign_id','=','customers.campaign_id')
-                    ->where('customers.campaign_id',$campaign_id)
-                    ->where('user_campaign.user_id',\Auth::user()->id)
-                    ->get();
-                return view('admin.page.customer.index', compact('data', 'title'));
-            }
+            $data = Customer::select('customers.*')
+                ->join('user_campaign','user_campaign.campaign_id','=','customers.campaign_id')
+                ->where('customers.campaign_id',$campaign_id)
+                ->where('user_campaign.user_id',\Auth::user()->id)
+                ->get();
+            return view('admin.page.customer.index', compact('data', 'title'));
         } else {
             return redirect()->back()->with('error', 'Đã xảy ra lỗi');
         }

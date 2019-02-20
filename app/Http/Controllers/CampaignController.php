@@ -22,32 +22,21 @@ class CampaignController extends Controller
      */
     public function index(Request $request)
     {
-        $user = \Auth::user();
-        if ($user->getRoleNames()[0] == 'admin') {
-            if (empty($request->category_id)) {
-                $data = Campaign::select('campaigns.*', 'categories.name as category_name')
-                    ->join('categories', 'categories.id', '=', 'campaigns.category_id')
-                    ->orderBy('campaigns.created_at', 'DESC')
-                    ->cursor();
-                $category_id = 0;
-            } else {
-                $data = Campaign::select('campaigns.*', 'categories.name as category_name')
-                    ->join('categories', 'categories.id', '=', 'campaigns.category_id')
-                    ->where('campaigns.category_id', $request->category_id)
-                    ->orderBy('campaigns.created_at', 'DESC')
-                    ->cursor();
-                $category_id = $request->category_id;
-            }
-            $arrayCategories = Category::where('parent_id', 0)->pluck('name', 'id')->toArray();
-        } else {
+        if (empty($request->category_id)) {
             $data = Campaign::select('campaigns.*', 'categories.name as category_name')
                 ->join('categories', 'categories.id', '=', 'campaigns.category_id')
-                ->where('campaigns.category_id', $user->category_id)
                 ->orderBy('campaigns.created_at', 'DESC')
                 ->cursor();
             $category_id = 0;
-            $arrayCategories = Category::where('id', $user->category_id)->pluck('name', 'id')->toArray();
+        } else {
+            $data = Campaign::select('campaigns.*', 'categories.name as category_name')
+                ->join('categories', 'categories.id', '=', 'campaigns.category_id')
+                ->where('campaigns.category_id', $request->category_id)
+                ->orderBy('campaigns.created_at', 'DESC')
+                ->cursor();
+            $category_id = $request->category_id;
         }
+        $arrayCategories = Category::where('parent_id', 0)->pluck('name', 'id')->toArray();
         $campaign_join = UserCampaign::where('user_id',\Auth::user()->id)->pluck('campaign_id')->toArray();
         $title = 'Danh sách chiến dịch';
         return view('admin.page.campaign.index', compact('data', 'arrayCategories', 'category_id','title','campaign_join'));
