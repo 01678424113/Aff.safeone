@@ -122,6 +122,7 @@
                                     <th> #</th>
                                     <th> Tên nhân viên</th>
                                     <th> Email</th>
+                                    <th>Số dư</th>
                                     <th> Vai trò</th>
                                     <th> Trạng thái</th>
                                     <th> Hành động</th>
@@ -140,6 +141,7 @@
                                         <td>{{ $i }}</td>
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->email }}</td>
+                                        <td>{{ number_format($item->amount) }}</td>
                                         <td>{{ $item->getRoleNames() }}</td>
                                         <td>
                                             <div class="">

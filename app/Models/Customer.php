@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Customer extends Model
 {
 
-    public static $ACTIVE = 1;
-    public static $UNACTIVE = 0;
+    public static $FAIL = -1;
+    public static $WAIT = 0;
+    public static $SUCCESS = 1;
 
     public static $PAID = 1;
     public static $NOPAID = 0;

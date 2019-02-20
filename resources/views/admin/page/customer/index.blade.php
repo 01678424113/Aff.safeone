@@ -129,6 +129,12 @@
                                 <tbody>
                                 <?php $i = 1; ?>
                                 @foreach($data as $item)
+                                    <?php
+                                    $disable = '';
+                                    if ($item->pay == \App\Models\Customer::$PAID) {
+                                        $disable = 'disable';
+                                    }
+                                    ?>
                                     <tr class="odd gradeX">
                                         <form action="{{route('customer.update',['id'=>$item->id])}}" method="post"
                                               class="customer-{{$item->id}}">
@@ -140,13 +146,13 @@
                                                 </label>
                                             </td>
                                             <td>{{ $i }}</td>
-                                            <td><input type="text" name="name" value="{{ $item->name }}"
+                                            <td><input type="text" name="name" value="{{ $item->name }}" {{$disable}}
                                                        data-id=".customer-{{$item->id}}"
                                                        class="form-control"></td>
-                                            <td><input type="email" name="email" value="{{ $item->email }}"
+                                            <td><input type="email" name="email" value="{{ $item->email }}" {{$disable}}
                                                        data-id=".customer-{{$item->id}}"
                                                        class="form-control"></td>
-                                            <td><input type="text" name="phone" value="{{ $item->phone }}"
+                                            <td><input type="text" name="phone" value="{{ $item->phone }}" {{$disable}}
                                                        data-id=".customer-{{$item->id}}"
                                                        class="form-control"></td>
                                             <td>
@@ -155,11 +161,11 @@
                                                       class="form-control">{{$item->note}}</textarea>
                                             </td>
                                             <td>
-                                                @if($item->status == -1)
+                                                @if($item->status == \App\Models\Customer::$FAIL)
                                                     <a class="btn-xs btn-danger">
                                                         <small>Thất bại</small>
                                                     </a>
-                                                @elseif($item->status == 0)
+                                                @elseif($item->status == \App\Models\Customer::$WAIT)
                                                     <a class="btn-xs btn-warning">
                                                         <small>Đang xử lý</small>
                                                     </a>
@@ -170,14 +176,20 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @if($item->pay == 1)
-                                                    <a class="btn-xs btn-success">
-                                                        <small>Đã thanh toán</small>
+                                                @if($item->status == \App\Models\Customer::$FAIL)
+                                                    <a class="btn-xs btn-default">
+                                                        <small>Thất bại</small>
                                                     </a>
                                                 @else
-                                                    <a class="btn-xs btn-warning">
-                                                        <small>Yêu cầu thanh toán</small>
-                                                    </a>
+                                                    @if($item->pay == \App\Models\Customer::$PAID)
+                                                        <a class="btn-xs btn-success">
+                                                            <small>Đã thanh toán</small>
+                                                        </a>
+                                                    @else
+                                                        <a class="btn-xs btn-warning">
+                                                            <small>Yêu cầu thanh toán</small>
+                                                        </a>
+                                                    @endif
                                                 @endif
                                             </td>
                                         </form>

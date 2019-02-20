@@ -131,6 +131,12 @@
                                 <tbody>
                                 <?php $i = 1; ?>
                                 @foreach($data as $item)
+                                    <?php
+                                    $disable = '';
+                                    if ($item->pay == \App\Models\Customer::$PAID) {
+                                        $disable = 'disabled';
+                                    }
+                                    ?>
                                     <tr class="odd gradeX">
                                         <form action="{{route('customer.update',['id'=>$item->id])}}" method="post"
                                               class="customer-{{$item->id}}">
@@ -142,13 +148,13 @@
                                                 </label>
                                             </td>
                                             <td>{{ $i }}</td>
-                                            <td><input type="text" name="name" value="{{ $item->name }}"
+                                            <td><input type="text" name="name" value="{{ $item->name }}" {{$disable}}
                                                        data-id=".customer-{{$item->id}}"
                                                        class="form-control"></td>
-                                            <td><input type="email" name="email" value="{{ $item->email }}"
+                                            <td><input type="email" name="email" value="{{ $item->email }}" {{$disable}}
                                                        data-id=".customer-{{$item->id}}"
                                                        class="form-control"></td>
-                                            <td><input type="text" name="phone" value="{{ $item->phone }}"
+                                            <td><input type="text" name="phone" value="{{ $item->phone }}" {{$disable}}
                                                        data-id=".customer-{{$item->id}}"
                                                        class="form-control"></td>
                                             <td>
@@ -156,45 +162,63 @@
                                                       data-id=".customer-{{$item->id}}"
                                                       class="form-control">{{$item->note}}</textarea>
                                             </td>
-                                            <td><input type="text" name="total"
+                                            <td><input type="text" name="total" {{$disable}}
                                                        value="{{ number_format($item->total) }}"
                                                        data-id=".customer-{{$item->id}}"
                                                        class="form-control"></td>
-                                            <td><input type="number" name="percent" value="{{ $item->percent }}"
+                                            <td><input type="number" name="percent" value="{{ $item->percent }}" {{$disable}}
                                                        data-id=".customer-{{$item->id}}"
                                                        class="form-control"></td>
                                             <td>
-                                                <select name="status" id="" class="form-control"
+                                                <select name="status" id="" class="form-control" {{$disable}}
                                                         data-id=".customer-{{$item->id}}">
-                                                    <option value="0" @if($item->status == 0) selected @endif>Đang xử
+                                                    <option value="0"
+                                                            @if($item->status == \App\Models\Customer::$WAIT) selected @endif>
+                                                        Đang xử
                                                         lý
                                                     </option>
-                                                    <option value="1" @if($item->status == 1) selected @endif>Thành
+                                                    <option value="1"
+                                                            @if($item->status == \App\Models\Customer::$SUCCESS) selected @endif>
+                                                        Thành
                                                         công
                                                     </option>
-                                                    <option value="-1" @if($item->status == -1) selected @endif>Thất
+                                                    <option value="-1"
+                                                            @if($item->status == \App\Models\Customer::$FAIL) selected @endif>
+                                                        Thất
                                                         bại
                                                     </option>
                                                 </select>
                                             </td>
                                         </form>
                                         <td>
-                                            @if($item->pay == 1)
-                                                <a href="javascript:void(0)" class="btn-xs btn-success">
-                                                    <small>Đã thanh toán</small>
+                                            @if($item->status == \App\Models\Customer::$FAIL)
+                                                <a href="javascript:void(0)" class="btn-xs btn-default">
+                                                    <small>Thất bại</small>
                                                 </a>
                                             @else
-                                                <form action="{{route('customer.pay',['id'=>$item->id])}}" method="post">
-                                                    @csrf
-                                                    <input type="hidden" name="amount" value="{{$item->total*$item->percent/100}}">
-                                                    <input type="hidden" name="customer_id" value="{{$item->id}}">
-                                                    <input type="hidden" name="note" value="Thanh toán khách hàng id {{$item->id}}">
-                                                    <input type="hidden" name="type" value="{{\App\Models\Transaction::$TYPE_PLUS}}">
-                                                    <button type="submit" class="btn-xs btn-danger">
-                                                        <small>Thanh toán ngay</small>
-                                                    </button>
-                                                </form>
+                                                @if($item->pay == \App\Models\Customer::$PAID)
+                                                    <a href="javascript:void(0)" class="btn-xs btn-success">
+                                                        <small>Đã thanh toán</small>
+                                                    </a>
+                                                @else
+                                                    <form action="{{route('customer.pay',['id'=>$item->id])}}"
+                                                          method="post">
+                                                        @csrf
+                                                        <input type="hidden" name="amount"
+                                                               value="{{$item->total*$item->percent/100}}">
+                                                        <input type="hidden" name="customer_id" value="{{$item->id}}">
+                                                        <input type="hidden" name="aff_id" value="{{$item->aff_id}}">
+                                                        <input type="hidden" name="note"
+                                                               value="Thanh toán khách hàng id {{$item->id}}">
+                                                        <input type="hidden" name="type"
+                                                               value="{{\App\Models\Transaction::$TYPE_PLUS}}">
+                                                        <button type="submit" class="btn-xs btn-danger">
+                                                            <small>Thanh toán ngay</small>
+                                                        </button>
+                                                    </form>
+                                                @endif
                                             @endif
+
                                         </td>
                                     </tr>
                                     <?php $i++ ?>
