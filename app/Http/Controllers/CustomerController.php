@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Libs\Helpers;
+use App\Models\Admin;
 use App\Models\Customer;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
+use Validator;
 
 class CustomerController extends Controller
 {
@@ -55,6 +60,47 @@ class CustomerController extends Controller
             return 'Cập nhập thành công';
         }else{
             return 'Đã xảy ra lỗi';
+        }
+    }
+
+    public function pay(Request $request,$id)
+    {
+        $validator = Validator::make($request->all(), [
+            'amount' => 'required|numeric',
+        ]);
+        if ($validator->fails()) {
+            $error = Helpers::getValidationError($validator);
+            return back()->with(['error' => $error])->withInput(Input::all());
+        }
+        $model = new Transaction();
+        $transactionId = 'RENEW' . time() . rand(111, 9999);
+        $model->user_id = \Auth::user()->id;
+        $model->customer_id = $request->customer_id;
+        $model->transaction_id = $transactionId;
+        $model->note = $request->note;
+        $model->amount = $request->amount;
+        $model->type = $request->type;
+        $model->status = Transaction::$STATUS_SUCCESS;
+        $model->save();
+
+        $customer = Customer::where('id',$request->customer_id)->first();
+        if(isset($customer)){
+            $customer->pay = Customer::$PAID;
+            $customer->save();
+            if($request->amount != 0){
+                $user = Admin::where('id',$request->user_id)->first();
+                if(!empty($user)){
+                    if($request->type == Transaction::$TYPE_PLUS){
+                        $user->amount = (int)$user->amount + $request->amount;
+                    }else{
+                        $user->amount = (int)$user->amount - $request->amount;
+                    }
+                    $user->save();
+                }
+            }
+            return back()->with('success', 'Tạo giao dịch thành công');
+        }else{
+            return back()->with('success', 'Đã xảy ra lỗi');
         }
     }
 }

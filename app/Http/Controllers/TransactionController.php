@@ -23,22 +23,24 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $data = Transaction::select('transactions.*', 'admins.name as user_name')
+        $data = Transaction::select('transactions.*', 'admins.name as user_name','customers.name as customer_name')
             ->join('admins', 'admins.id', '=', 'transactions.user_id')
+            ->join('customers', 'customers.id', '=', 'transactions.customer_id')
             ->orderBy('transactions.created_at', 'DESC')
-            ->cursor();
+            ->paginate(20);
         $title = 'Danh sách giao dịch';
-        return view('admin.page.transaction-manager.index', compact('data','title'));
+        return view('admin.page.transaction-manager.index-admin', compact('data','title'));
     }
 
     public function individual()
     {
         $user = Auth::user();
-        $data = Transaction::select('transactions.*', 'admins.name as user_name')
+        $data = Transaction::select('transactions.*', 'admins.name as user_name','customers.name as customer_name')
             ->join('admins', 'admins.id', '=', 'transactions.user_id')
+            ->join('customers', 'customers.id', '=', 'transactions.customer_id')
             ->where('admins.id',$user->id)
             ->orderBy('transactions.created_at', 'DESC')
-            ->cursor();
+            ->paginate(20);
         $title = 'Danh sách giao dịch cá nhân';
         return view('admin.page.transaction-manager.index', compact('data','title'));
     }

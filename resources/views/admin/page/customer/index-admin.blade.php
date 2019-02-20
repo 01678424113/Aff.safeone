@@ -156,7 +156,8 @@
                                                       data-id=".customer-{{$item->id}}"
                                                       class="form-control">{{$item->note}}</textarea>
                                             </td>
-                                            <td><input type="text" name="total" value="{{ number_format($item->total) }}"
+                                            <td><input type="text" name="total"
+                                                       value="{{ number_format($item->total) }}"
                                                        data-id=".customer-{{$item->id}}"
                                                        class="form-control"></td>
                                             <td><input type="number" name="percent" value="{{ $item->percent }}"
@@ -176,18 +177,25 @@
                                                     </option>
                                                 </select>
                                             </td>
-                                            <td>
-                                                @if($item->pay == 1)
-                                                    <a class="btn-xs btn-success">
-                                                        <small>Đã thanh toán</small>
-                                                    </a>
-                                                @else
-                                                    <a class="btn-xs btn-danger">
-                                                        <small>Thanh toán ngay</small>
-                                                    </a>
-                                                @endif
-                                            </td>
                                         </form>
+                                        <td>
+                                            @if($item->pay == 1)
+                                                <a href="javascript:void(0)" class="btn-xs btn-success">
+                                                    <small>Đã thanh toán</small>
+                                                </a>
+                                            @else
+                                                <form action="{{route('customer.pay',['id'=>$item->id])}}" method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="amount" value="{{$item->total*$item->percent/100}}">
+                                                    <input type="hidden" name="customer_id" value="{{$item->id}}">
+                                                    <input type="hidden" name="note" value="Thanh toán khách hàng id {{$item->id}}">
+                                                    <input type="hidden" name="type" value="{{\App\Models\Transaction::$TYPE_PLUS}}">
+                                                    <button type="submit" class="btn-xs btn-danger">
+                                                        <small>Thanh toán ngay</small>
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        </td>
                                     </tr>
                                     <?php $i++ ?>
                                 @endforeach
@@ -214,6 +222,7 @@
                 success: function (res) {
                     alert(res);
                     console.log(res);
+                    location.reload();
                 }
             });
         });
@@ -227,6 +236,7 @@
                 success: function (res) {
                     alert(res);
                     console.log(res);
+                    location.reload();
                 }
             });
         });
@@ -240,6 +250,7 @@
                 success: function (res) {
                     alert(res);
                     console.log(res);
+                    location.reload();
                 }
             });
         });

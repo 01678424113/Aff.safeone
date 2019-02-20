@@ -120,6 +120,7 @@
                                     <th>Số tiền</th>
                                     <th>Thời gian giao dịch</th>
                                     <th>Trạng thái</th>
+                                    <th>Hành động</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -151,6 +152,11 @@
                                             @elseif($item->status == \App\Models\Transaction::$STATUS_INIT)
                                                 <label class="label label-default">Mới tạo</label>
                                             @endif
+                                        </td>
+                                        <td>
+                                            <a href="{{route('transaction-manager.edit',['id'=>$item->id])}}"
+                                               class="btn btn-xs btn-warning"><i
+                                                        class="fa fa-edit"></i></a>
                                         </td>
                                     </tr>
                                     <?php $i++ ?>

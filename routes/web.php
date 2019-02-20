@@ -101,6 +101,7 @@ Route::group(['middleware' => ['auth','permissions']], function () {
         Route::group(['prefix' => 'customer'], function () {
             Route::get('/', 'CustomerController@index')->name('customer.index');
             Route::post('/update/{id}', 'CustomerController@update')->name('customer.update');
+            Route::post('/pay/{id}', 'CustomerController@pay')->name('customer.pay');
         });
     });
 });
