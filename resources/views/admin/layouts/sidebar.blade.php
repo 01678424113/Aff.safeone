@@ -39,7 +39,7 @@
             </li>
             <li class="nav-item  ">
                 <a href="javascript:;" class="nav-link nav-toggle">
-                    <i class="icon-diamond"></i>
+                    <i class="icon-action-redo"></i>
                     <span class="title">Phân quyền</span>
                     <span class="arrow"></span>
                 </a>
@@ -77,6 +77,26 @@
                     <li class="nav-item  ">
                         <a href="{{ route('campaign.myCampaign') }}" class="nav-link ">
                             <span class="title">Chiến dịch của bạn</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="nav-item  ">
+                <a href="javascript:;" class="nav-link nav-toggle">
+                    <i class="icon-diamond"></i>
+                    <span class="title">Giao dịch</span>
+                    <span class="arrow"></span>
+                </a>
+                <ul class="sub-menu">
+                    <li class="nav-item  ">
+                        <a href="{{ route('transaction-manager.index') }}" class="nav-link ">
+                            <span class="title">Dách sách giao dịch</span>
+                        </a>
+                    </li>
+                    <li class="nav-item  ">
+                        <a href="{{ route('transaction-manager.individual') }}" class="nav-link ">
+                            <span class="title">Giao dịch của tôi</span>
                         </a>
                     </li>
                 </ul>

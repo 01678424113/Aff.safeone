@@ -8,7 +8,7 @@
         @include('admin.layouts.theme-panel')
         <!-- END THEME PANEL -->
             <h1 class="page-title"> {{$title}}
-                <small>khách hàng</small>
+                <small>giao dịch</small>
             </h1>
             <div class="page-bar">
                 <ul class="page-breadcrumb">
@@ -57,7 +57,7 @@
                 <p></p>
             </div>
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <!-- BEGIN EXAMPLE TABLE PORTLET-->
                     <div class="portlet light ">
                         <div class="portlet-title">
@@ -78,9 +78,7 @@
                             <div class="table-toolbar">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <div class="btn-group">
 
-                                        </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="btn-group pull-right">
@@ -110,128 +108,83 @@
                                    id="sample_1">
                                 <thead>
                                 <tr>
-                                    <th class="table-checkbox">
-                                        <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                            <input type="checkbox" class="group-checkable"
-                                                   data-set="#sample_3 .checkboxes"/>
-                                            <span></span>
-                                        </label>
-                                    </th>
                                     <th> #</th>
-                                    <th> Tên</th>
-                                    <th> Email</th>
-                                    <th> Số điện thoại</th>
-                                    <th> Note</th>
-                                    <th> Trạng thái</th>
-                                    <th> Thanh toán</th>
+                                    <th>Thời gian</th>
+                                    <th>Số tiền</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <?php $i = 1; ?>
-                                @foreach($data as $item)
-                                    <tr class="odd gradeX">
-                                        <form action="{{route('customer.update',['id'=>$item->id])}}" method="post"
-                                              class="customer-{{$item->id}}">
-                                            @csrf
-                                            <td>
-                                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                                    <input type="checkbox" class="checkboxes" value="1"/>
-                                                    <span></span>
-                                                </label>
-                                            </td>
+                                @if(!empty($revenues))
+                                    <?php $i = 1; ?>
+                                    @foreach($revenues as $key => $value)
+                                        <tr>
                                             <td>{{ $i }}</td>
-                                            <td><input type="text" name="name" value="{{ $item->name }}"
-                                                       data-id=".customer-{{$item->id}}"
-                                                       class="form-control"></td>
-                                            <td><input type="email" name="email" value="{{ $item->email }}"
-                                                       data-id=".customer-{{$item->id}}"
-                                                       class="form-control"></td>
-                                            <td><input type="text" name="phone" value="{{ $item->phone }}"
-                                                       data-id=".customer-{{$item->id}}"
-                                                       class="form-control"></td>
-                                            <td>
-                                            <textarea name="note" id="" cols="25" rows="3"
-                                                      data-id=".customer-{{$item->id}}"
-                                                      class="form-control">{{$item->note}}</textarea>
-                                            </td>
-                                            <td>
-                                                @if($item->status == -1)
-                                                    <a class="btn-xs btn-danger">
-                                                        <small>Thất bại</small>
-                                                    </a>
-                                                @elseif($item->status == 0)
-                                                    <a class="btn-xs btn-warning">
-                                                        <small>Đang xử lý</small>
-                                                    </a>
-                                                @else
-                                                    <a class="btn-xs btn-success">
-                                                        <small>Thành công</small>
-                                                    </a>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if($item->pay == 1)
-                                                    <a class="btn-xs btn-success">
-                                                        <small>Đã thanh toán</small>
-                                                    </a>
-                                                @else
-                                                    <a class="btn-xs btn-warning">
-                                                        <small>Yêu cầu thanh toán</small>
-                                                    </a>
-                                                @endif
-                                            </td>
-                                        </form>
-                                    </tr>
-                                    <?php $i++ ?>
-                                @endforeach
+                                            <td>{{ $key }}</td>
+                                            <td>{{ number_format($value) }} VND</td>
+                                        </tr>
+                                    @endforeach
+                                @endif
                                 </tbody>
                             </table>
                         </div>
                     </div>
                     <!-- END EXAMPLE TABLE PORTLET-->
                 </div>
+                <div class="col-md-6">
+                    <form action="{{route('transaction-manager.manager')}}" method="get" id="transaction_manager">
+                        <div class="dataTables_length pull-right">
+                            <select name="time" class="form-control input-sm">
+                                <option {{(Request::input('time') == 'month') ? 'selected' : ''}} value="month"
+                                        class="form-control">Tháng
+                                </option>
+                                <option {{(Request::input('time') == 'date') ? 'selected' : ''}} value="date"
+                                        class="form-control">Ngày
+                                </option>
+                                <option {{(Request::input('time') == 'year') ? 'selected' : ''}} value="year"
+                                        class="form-control">Năm
+                                </option>
+                            </select>
+                        </div>
+                    </form>
+                    <div class="x_content">
+                        <canvas id="transactionChart"></canvas>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- END CONTENT BODY -->
     </div>
 @endsection
-@section('script')
+@section('scripts')
+    <script src="js/Chart.js"></script>
     <script>
-        $('input').change(function () {
-            var id = $(this).attr('data-id');
-            var url = $(id).attr('action');
-            $.ajax({
-                url: url,
-                type: 'POST',
-                data: $(id).serialize(),
-                success: function (res) {
-                    console.log(res);
+        $('select[name=time]').change(function () {
+            $('#transaction_manager').submit();
+        });
+        if ($('#transactionChart').length) {
+            var ctx = document.getElementById("transactionChart");
+            var transactionChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: {!! $month !!},
+                    datasets: [{
+                        label: 'Doanh thu',
+                        backgroundColor: "#26B99A",
+                        data: {!! $money !!}
+                    }]
+                },
+
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
                 }
             });
-        });
-        $('textarea').change(function () {
-            var id = $(this).attr('data-id');
-            var url = $(id).attr('action');
-            $.ajax({
-                url: url,
-                type: 'POST',
-                data: $(id).serialize(),
-                success: function (res) {
-                    console.log(res);
-                }
-            });
-        });
-        $('select').change(function () {
-            var id = $(this).attr('data-id');
-            var url = $(id).attr('action');
-            $.ajax({
-                url: url,
-                type: 'POST',
-                data: $(id).serialize(),
-                success: function (res) {
-                    console.log(res);
-                }
-            });
-        });
+
+        }
     </script>
 @endsection

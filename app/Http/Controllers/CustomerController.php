@@ -48,7 +48,7 @@ class CustomerController extends Controller
             $customer->note = $request->note;
             $customer->status = $request->status;
             if(\Auth::user()->getRoleNames()[0] == 'admin'){
-                $customer->total = $request->total;
+                $customer->total = str_replace(',','',$request->total);
                 $customer->percent = $request->percent;
             }
             $customer->save();

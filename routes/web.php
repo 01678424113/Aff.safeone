@@ -86,6 +86,17 @@ Route::group(['middleware' => ['auth','permissions']], function () {
             Route::post('update/{id}', 'RoleController@update')->name('role.update');
             Route::get('destroy/{id}', 'RoleController@destroy')->name('role.destroy');
         });
+        Route::group(['prefix' => 'transaction-manager'], function () {
+            Route::get('/', 'TransactionController@index')->name('transaction-manager.index');
+            Route::get('manager', 'TransactionController@manager')->name('transaction-manager.manager');
+            Route::get('create', 'TransactionController@create')->name('transaction-manager.create');
+            Route::get('individual', 'TransactionController@individual')->name('transaction-manager.individual');
+            Route::post('store', 'TransactionController@store')->name('transaction-manager.store');
+            Route::get('show/{id}', 'TransactionController@show')->name('transaction-manager.show');
+            Route::get('{id}/edit', 'TransactionController@edit')->name('transaction-manager.edit');
+            Route::post('update/{id}', 'TransactionController@update')->name('transaction-manager.update');
+            Route::get('destroy/{id}', 'TransactionController@destroy')->name('transaction-manager.destroy');
+        });
 
         Route::group(['prefix' => 'customer'], function () {
             Route::get('/', 'CustomerController@index')->name('customer.index');

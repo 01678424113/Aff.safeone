@@ -8,7 +8,7 @@
         @include('admin.layouts.theme-panel')
         <!-- END THEME PANEL -->
             <h1 class="page-title"> {{$title}}
-                <small>khách hàng</small>
+                <small>giao dịch</small>
             </h1>
             <div class="page-bar">
                 <ul class="page-breadcrumb">
@@ -79,7 +79,9 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="btn-group">
-
+                                            <a href="{{route('transaction-manager.create')}}" class="btn sbold green"> Thêm giao dịch
+                                                <i class="fa fa-plus"></i>
+                                            </a>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -110,77 +112,50 @@
                                    id="sample_1">
                                 <thead>
                                 <tr>
-                                    <th class="table-checkbox">
-                                        <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                            <input type="checkbox" class="group-checkable"
-                                                   data-set="#sample_3 .checkboxes"/>
-                                            <span></span>
-                                        </label>
-                                    </th>
                                     <th> #</th>
-                                    <th> Tên</th>
-                                    <th> Email</th>
-                                    <th> Số điện thoại</th>
-                                    <th> Note</th>
-                                    <th> Trạng thái</th>
-                                    <th> Thanh toán</th>
+                                    <th>Mã giao dịch</th>
+                                    <th>Tên user</th>
+                                    <th>Loại giao dịch</th>
+                                    <th>Số tiền</th>
+                                    <th>Thời gian giao dịch</th>
+                                    <th>Trạng thái</th>
+                                    <th>Hành động</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <?php $i = 1; ?>
                                 @foreach($data as $item)
                                     <tr class="odd gradeX">
-                                        <form action="{{route('customer.update',['id'=>$item->id])}}" method="post"
-                                              class="customer-{{$item->id}}">
-                                            @csrf
-                                            <td>
-                                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                                    <input type="checkbox" class="checkboxes" value="1"/>
-                                                    <span></span>
-                                                </label>
-                                            </td>
-                                            <td>{{ $i }}</td>
-                                            <td><input type="text" name="name" value="{{ $item->name }}"
-                                                       data-id=".customer-{{$item->id}}"
-                                                       class="form-control"></td>
-                                            <td><input type="email" name="email" value="{{ $item->email }}"
-                                                       data-id=".customer-{{$item->id}}"
-                                                       class="form-control"></td>
-                                            <td><input type="text" name="phone" value="{{ $item->phone }}"
-                                                       data-id=".customer-{{$item->id}}"
-                                                       class="form-control"></td>
-                                            <td>
-                                            <textarea name="note" id="" cols="25" rows="3"
-                                                      data-id=".customer-{{$item->id}}"
-                                                      class="form-control">{{$item->note}}</textarea>
-                                            </td>
-                                            <td>
-                                                @if($item->status == -1)
-                                                    <a class="btn-xs btn-danger">
-                                                        <small>Thất bại</small>
-                                                    </a>
-                                                @elseif($item->status == 0)
-                                                    <a class="btn-xs btn-warning">
-                                                        <small>Đang xử lý</small>
-                                                    </a>
-                                                @else
-                                                    <a class="btn-xs btn-success">
-                                                        <small>Thành công</small>
-                                                    </a>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if($item->pay == 1)
-                                                    <a class="btn-xs btn-success">
-                                                        <small>Đã thanh toán</small>
-                                                    </a>
-                                                @else
-                                                    <a class="btn-xs btn-warning">
-                                                        <small>Yêu cầu thanh toán</small>
-                                                    </a>
-                                                @endif
-                                            </td>
-                                        </form>
+                                        <td>{{ $i }}</td>
+                                        <td>{{ $item->transaction_id }}</td>
+                                        <td>{{ $item->user_name }}</td>
+                                        <td>
+                                            @if($item->type == \App\Models\Transaction::$TYPE_PLUS)
+                                                <label class="label label-success">Cộng tiền</label>
+                                            @elseif($item->type == \App\Models\Transaction::$TYPE_MINUS)
+                                                <label class="label label-danger">Trừ tiền</label>
+                                            @endif
+                                        </td>
+                                        <td>{{ number_format($item->amount) }}</td>
+                                        <td>{{ date('H:i:s d/m/Y', strtotime($item->created_at)) }}</td>
+                                        <td>
+                                            @if($item->status == \App\Models\Transaction::$STATUS_SUCCESS)
+                                                <label class="label label-success">Thành công</label>
+                                            @elseif($item->status == \App\Models\Transaction::$STATUS_PENDING)
+                                                <label class="label label-warning">Đang xử lý</label>
+                                            @elseif($item->status == \App\Models\Transaction::$STATUS_FAILURE)
+                                                <label class="label label-danger">Thất bại</label>
+                                            @elseif($item->status == \App\Models\Transaction::$STATUS_CANCEL)
+                                                <label class="label label-default">Hủy bỏ</label>
+                                            @elseif($item->status == \App\Models\Transaction::$STATUS_INIT)
+                                                <label class="label label-default">Mới tạo</label>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <a href="{{route('transaction-manager.edit',['id'=>$item->id])}}"
+                                               class="btn btn-xs btn-success"><i
+                                                        class="fa fa-eye"></i></a>
+                                        </td>
                                     </tr>
                                     <?php $i++ ?>
                                 @endforeach
@@ -194,44 +169,4 @@
         </div>
         <!-- END CONTENT BODY -->
     </div>
-@endsection
-@section('script')
-    <script>
-        $('input').change(function () {
-            var id = $(this).attr('data-id');
-            var url = $(id).attr('action');
-            $.ajax({
-                url: url,
-                type: 'POST',
-                data: $(id).serialize(),
-                success: function (res) {
-                    console.log(res);
-                }
-            });
-        });
-        $('textarea').change(function () {
-            var id = $(this).attr('data-id');
-            var url = $(id).attr('action');
-            $.ajax({
-                url: url,
-                type: 'POST',
-                data: $(id).serialize(),
-                success: function (res) {
-                    console.log(res);
-                }
-            });
-        });
-        $('select').change(function () {
-            var id = $(this).attr('data-id');
-            var url = $(id).attr('action');
-            $.ajax({
-                url: url,
-                type: 'POST',
-                data: $(id).serialize(),
-                success: function (res) {
-                    console.log(res);
-                }
-            });
-        });
-    </script>
 @endsection

@@ -145,7 +145,7 @@
                                             <td><input type="text" name="name" value="{{ $item->name }}"
                                                        data-id=".customer-{{$item->id}}"
                                                        class="form-control"></td>
-                                            <td><input type="text" name="email" value="{{ $item->email }}"
+                                            <td><input type="email" name="email" value="{{ $item->email }}"
                                                        data-id=".customer-{{$item->id}}"
                                                        class="form-control"></td>
                                             <td><input type="text" name="phone" value="{{ $item->phone }}"
@@ -156,10 +156,10 @@
                                                       data-id=".customer-{{$item->id}}"
                                                       class="form-control">{{$item->note}}</textarea>
                                             </td>
-                                            <td><input type="text" name="total" value="{{ $item->total }}"
+                                            <td><input type="text" name="total" value="{{ number_format($item->total) }}"
                                                        data-id=".customer-{{$item->id}}"
                                                        class="form-control"></td>
-                                            <td><input type="text" name="percent" value="{{ $item->percent }}"
+                                            <td><input type="number" name="percent" value="{{ $item->percent }}"
                                                        data-id=".customer-{{$item->id}}"
                                                        class="form-control"></td>
                                             <td>
@@ -179,11 +179,11 @@
                                             <td>
                                                 @if($item->pay == 1)
                                                     <a class="btn-xs btn-success">
-                                                        <small>Thanh toán</small>
+                                                        <small>Đã thanh toán</small>
                                                     </a>
                                                 @else
                                                     <a class="btn-xs btn-danger">
-                                                        <small>Chưa thanh toán</small>
+                                                        <small>Thanh toán ngay</small>
                                                     </a>
                                                 @endif
                                             </td>
