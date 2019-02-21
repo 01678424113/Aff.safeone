@@ -39,7 +39,7 @@ class TransactionController extends Controller
         $data = Transaction::select('transactions.*', 'admins.name as user_name','customers.name as customer_name')
             ->join('admins', 'admins.id', '=', 'transactions.user_id')
             ->join('customers', 'customers.id', '=', 'transactions.customer_id')
-            ->where('admins.id',$user->id)
+            ->where('transactions.user_id',$user->id)
             ->orderBy('transactions.created_at', 'DESC')
             ->paginate(20);
         $title = 'Danh sách giao dịch cá nhân';

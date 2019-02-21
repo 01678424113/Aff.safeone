@@ -30,13 +30,16 @@ class CustomerController extends Controller
     {
         $campaign = Campaign::where('id', $campaign_id)->first();
         if (isset($campaign)) {
-            $title = 'Danh sách khách hàng';
-            $data = Customer::select('customers.*')
-                ->join('user_campaign','user_campaign.campaign_id','=','customers.campaign_id')
-                ->where('customers.campaign_id',$campaign_id)
-                ->where('user_campaign.user_id',\Auth::user()->id)
-                ->get();
-            return view('admin.page.customer.index', compact('data', 'title'));
+            $affiliate = Affiliate::where('user_id',\Auth::user()->id)->where('campaign_id',$campaign_id)->first();
+            if (isset($affiliate)) {
+                $title = 'Danh sách khách hàng';
+                $data = Customer::select('*')
+                    ->where('aff_id',$affiliate->aff_id)
+                    ->get();
+                return view('admin.page.customer.index', compact('data', 'title'));
+            }else{
+                return redirect()->back()->with('error', 'Đã xảy ra lỗi');
+            }
         } else {
             return redirect()->back()->with('error', 'Đã xảy ra lỗi');
         }
@@ -125,7 +128,7 @@ class CustomerController extends Controller
                             $user->save();
                             $model = new Transaction();
                             $transactionId = 'RENEW' . time() . rand(111, 9999);
-                            $model->user_id = \Auth::user()->id;
+                            $model->user_id = $user->id;
                             $model->customer_id = $request->customer_id;
                             $model->transaction_id = $transactionId;
                             $model->note = $request->note;

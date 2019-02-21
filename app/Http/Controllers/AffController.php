@@ -11,7 +11,7 @@ class AffController extends Controller
 {
     public function joinCampaign(Request $request, $campaign_id)
     {
-        $check = UserCampaign::where('campaign_id', $campaign_id)->first();
+        $check = UserCampaign::where('campaign_id', $campaign_id)->where('user_id',\Auth::user()->id)->first();
         if (!isset($check)) {
             $user_campaign = new UserCampaign();
             $user_campaign->user_id = \Auth::user()->id;

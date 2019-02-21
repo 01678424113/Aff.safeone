@@ -258,11 +258,12 @@ class CampaignController extends Controller
     public function myCampaign()
     {
         $user = \Auth::user();
-        $data = Campaign::select('campaigns.*')
+        $data = Campaign::select('campaigns.*','user_campaign.user_id as user_id','affiliates.aff_id as aff_id')
             ->join('user_campaign', 'user_campaign.campaign_id', '=', 'campaigns.id')
+            ->join('affiliates', 'affiliates.user_id', '=', 'user_campaign.user_id')
             ->where('user_campaign.user_id',$user->id)
             ->orderBy('campaigns.created_at', 'DESC')
-            ->cursor();
+            ->paginate(20);
         $title = 'Chiến dịch của tôi';
         return view('admin.page.campaign.myCampaign', compact('data','title'));
     }

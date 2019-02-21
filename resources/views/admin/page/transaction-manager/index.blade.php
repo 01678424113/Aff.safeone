@@ -114,8 +114,8 @@
                                 <tr>
                                     <th> #</th>
                                     <th>Mã giao dịch</th>
-                                    <th>Người thanh toán</th>
                                     <th>Người nhận</th>
+                                    <th>Khách hàng</th>
                                     <th>Loại giao dịch</th>
                                     <th>Số tiền</th>
                                     <th>Thời gian giao dịch</th>
