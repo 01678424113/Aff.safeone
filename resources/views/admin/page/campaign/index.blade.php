@@ -181,7 +181,7 @@
                                         @if(Auth::user()->getRoleNames()[0] == 'admin')
                                             <td><a href="{{route('customer.indexAdmin',['campaign_id'=>$item->id])}}"
                                                    class="btn-xs btn-info">
-                                                    <small>Xem</small>
+                                                    <small>Xem khách</small>
                                                 </a></td>
                                             <td>
                                                 <a href="{{route('campaign.edit',['id'=>$item->id])}}"

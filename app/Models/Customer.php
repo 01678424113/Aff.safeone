@@ -13,6 +13,7 @@ class Customer extends Model
 
     public static $PAID = 1;
     public static $NOPAID = 0;
+    public static $REQUESTPAID = 2;
 
     protected static function getAllData()
     {

@@ -147,13 +147,13 @@
                                             </td>
                                             <td>{{ $i }}</td>
                                             <td><input type="text" name="name" value="{{ $item->name }}" {{$disable}}
-                                                       data-id=".customer-{{$item->id}}"
+                                                data-id=".customer-{{$item->id}}"
                                                        class="form-control"></td>
                                             <td><input type="email" name="email" value="{{ $item->email }}" {{$disable}}
-                                                       data-id=".customer-{{$item->id}}"
+                                                data-id=".customer-{{$item->id}}"
                                                        class="form-control"></td>
                                             <td><input type="text" name="phone" value="{{ $item->phone }}" {{$disable}}
-                                                       data-id=".customer-{{$item->id}}"
+                                                data-id=".customer-{{$item->id}}"
                                                        class="form-control"></td>
                                             <td>
                                             <textarea name="note" id="" cols="25" rows="3"
@@ -175,24 +175,28 @@
                                                     </a>
                                                 @endif
                                             </td>
-                                            <td>
-                                                @if($item->status == \App\Models\Customer::$FAIL)
-                                                    <a class="btn-xs btn-default">
-                                                        <small>Thất bại</small>
+                                        </form>
+                                        <td>
+                                            @if($item->status == \App\Models\Customer::$FAIL)
+                                                <a class="btn-xs btn-default">
+                                                    <small>Thất bại</small>
+                                                </a>
+                                            @else
+                                                @if($item->pay == \App\Models\Customer::$PAID)
+                                                    <a class="btn-xs btn-success">
+                                                        <small>Đã thanh toán</small>
                                                     </a>
                                                 @else
-                                                    @if($item->pay == \App\Models\Customer::$PAID)
-                                                        <a class="btn-xs btn-success">
-                                                            <small>Đã thanh toán</small>
-                                                        </a>
-                                                    @else
-                                                        <a class="btn-xs btn-warning">
+                                                    <form action="{{route('customer.requestPay',['id'=>$item->id])}}"
+                                                          method="post">
+                                                        @csrf
+                                                        <button type="submit" class="btn-xs btn-warning">
                                                             <small>Yêu cầu thanh toán</small>
-                                                        </a>
-                                                    @endif
+                                                        </button>
+                                                    </form>
                                                 @endif
-                                            </td>
-                                        </form>
+                                            @endif
+                                        </td>
                                     </tr>
                                     <?php $i++ ?>
                                 @endforeach
@@ -208,42 +212,5 @@
     </div>
 @endsection
 @section('script')
-    <script>
-        $('input').change(function () {
-            var id = $(this).attr('data-id');
-            var url = $(id).attr('action');
-            $.ajax({
-                url: url,
-                type: 'POST',
-                data: $(id).serialize(),
-                success: function (res) {
-                    console.log(res);
-                }
-            });
-        });
-        $('textarea').change(function () {
-            var id = $(this).attr('data-id');
-            var url = $(id).attr('action');
-            $.ajax({
-                url: url,
-                type: 'POST',
-                data: $(id).serialize(),
-                success: function (res) {
-                    console.log(res);
-                }
-            });
-        });
-        $('select').change(function () {
-            var id = $(this).attr('data-id');
-            var url = $(id).attr('action');
-            $.ajax({
-                url: url,
-                type: 'POST',
-                data: $(id).serialize(),
-                success: function (res) {
-                    console.log(res);
-                }
-            });
-        });
-    </script>
+
 @endsection

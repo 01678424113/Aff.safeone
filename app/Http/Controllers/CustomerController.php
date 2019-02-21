@@ -85,6 +85,18 @@ class CustomerController extends Controller
         }
     }
 
+    public function requestPay(Request $request,$id)
+    {
+        $customer = Customer::where('id', $id)->first();
+        if (isset($customer) && $customer->pay != Customer::$PAID) {
+            $customer->pay = Customer::$REQUESTPAID;
+            $customer->save();
+            return redirect()->back()->with('success','Yêu cầu thành công');
+        }else{
+            return redirect()->back()->with('error','Đã xảy ra lỗi');
+        }
+    }
+
     public function pay(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
@@ -136,4 +148,6 @@ class CustomerController extends Controller
             return back()->with('error', 'Đã xảy ra lỗi');
         }
     }
+
+
 }

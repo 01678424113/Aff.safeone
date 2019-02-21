@@ -69,6 +69,15 @@
                             <span class="title">Dịch vụ</span>
                         </a>
                     </li>
+                </ul>
+            </li>
+            <li class="nav-item  ">
+                <a href="javascript:;" class="nav-link nav-toggle">
+                    <i class="icon-anchor"></i>
+                    <span class="title">Chiến dịch</span>
+                    <span class="arrow"></span>
+                </a>
+                <ul class="sub-menu">
                     <li class="nav-item  ">
                         <a href="{{ route('campaign.index') }}" class="nav-link ">
                             <span class="title">Dach sách chiến dịch</span>
@@ -97,6 +106,11 @@
                     <li class="nav-item  ">
                         <a href="{{ route('transaction-manager.individual') }}" class="nav-link ">
                             <span class="title">Giao dịch của tôi</span>
+                        </a>
+                    </li>
+                    <li class="nav-item  ">
+                        <a href="{{ route('transaction-manager.listRequestPaid') }}" class="nav-link ">
+                            <span class="title">Yêu cầu thanh toán</span>
                         </a>
                     </li>
                 </ul>

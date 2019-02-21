@@ -122,7 +122,7 @@
                                     </th>
                                     <th>STT</th>
                                     <th>Tên chiến dịch</th>
-                                    <th>Số khách</th>
+                                    <th>Khách hàng</th>
                                     <th>Thời gian tạo</th>
                                     <th>Trạng thái</th>
                                     <th>Hành động</th>

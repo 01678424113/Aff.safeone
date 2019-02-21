@@ -96,12 +96,14 @@ Route::group(['middleware' => ['auth','permissions']], function () {
             Route::get('{id}/edit', 'TransactionController@edit')->name('transaction-manager.edit');
             Route::post('update/{id}', 'TransactionController@update')->name('transaction-manager.update');
             Route::get('destroy/{id}', 'TransactionController@destroy')->name('transaction-manager.destroy');
+            Route::get('list-request-paid', 'TransactionController@listRequestPaid')->name('transaction-manager.listRequestPaid');
         });
 
         Route::group(['prefix' => 'customer'], function () {
             Route::get('/admin/{campaign_id}', 'CustomerController@indexAdmin')->name('customer.indexAdmin');
             Route::get('/{campaign_id}', 'CustomerController@index')->name('customer.index');
             Route::post('/update/{id}', 'CustomerController@update')->name('customer.update');
+            Route::post('/request-pay/{id}', 'CustomerController@requestPay')->name('customer.requestPay');
             Route::post('/pay/{id}', 'CustomerController@pay')->name('customer.pay');
         });
     });

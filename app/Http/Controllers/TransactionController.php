@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Libs\Helpers;
 use App\Models\Admin;
+use App\Models\Customer;
 use App\Models\Transaction;
 use App\Rules\Utf8StringRule;
 use DB;
@@ -199,5 +200,12 @@ class TransactionController extends Controller
         } catch (\Exception $e) {
             return back()->with('error', 'Đã xảy ra lỗi');
         }
+    }
+
+    public function listRequestPaid()
+    {
+        $data = Customer::where('pay',Customer::$REQUESTPAID)->paginate(20);
+        $title = 'Danh sách yêu cầu';
+        return view('admin.page.customer.index-admin', compact('data', 'title'));
     }
 }
