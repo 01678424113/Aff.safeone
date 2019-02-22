@@ -32,6 +32,8 @@ Route::group(['middleware' => ['auth','permissions']], function () {
             Route::get('{id}/edit', 'UserAdminController@edit')->name('user-admin.edit');
             Route::post('update/{id}', 'UserAdminController@update')->name('user-admin.update');
             Route::get('destroy/{id}', 'UserAdminController@destroy')->name('user-admin.destroy');
+            Route::get('withdrawal', 'UserAdminController@withdrawal')->name('user-admin.withdrawal');
+            Route::post('withdrawal', 'UserAdminController@doWithdrawal')->name('user-admin.doWithdrawal');
         });
 
         Route::group(['prefix' => 'campaign'], function () {
@@ -97,6 +99,7 @@ Route::group(['middleware' => ['auth','permissions']], function () {
             Route::post('update/{id}', 'TransactionController@update')->name('transaction-manager.update');
             Route::get('destroy/{id}', 'TransactionController@destroy')->name('transaction-manager.destroy');
             Route::get('list-request-paid', 'TransactionController@listRequestPaid')->name('transaction-manager.listRequestPaid');
+            Route::get('list-withdrawal', 'TransactionController@listWithdrawal')->name('transaction-manager.listWidrawal');
         });
 
         Route::group(['prefix' => 'customer'], function () {

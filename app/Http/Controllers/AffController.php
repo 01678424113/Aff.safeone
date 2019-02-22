@@ -38,6 +38,7 @@ class AffController extends Controller
 
                 do {
                     $aff_id = str_replace('/','',base64_encode(random_bytes(10)) . time());
+                    $aff_id = str_replace('=','',$aff_id);
                     $check = Affiliate::where('aff_id', $aff_id)->first();
                 } while (!empty($check));
                 $aff->aff_id = $aff_id;

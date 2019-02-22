@@ -24,26 +24,28 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $data = Transaction::select('transactions.*', 'admins.name as user_name','customers.name as customer_name')
+        $data = Transaction::select('transactions.*', 'admins.name as user_name', 'customers.name as customer_name')
             ->join('admins', 'admins.id', '=', 'transactions.user_id')
             ->join('customers', 'customers.id', '=', 'transactions.customer_id')
+            ->where('transactions.type', '<>', Transaction::$WITHDRAWAL)
             ->orderBy('transactions.created_at', 'DESC')
             ->paginate(20);
         $title = 'Danh sách giao dịch';
-        return view('admin.page.transaction-manager.index-admin', compact('data','title'));
+        return view('admin.page.transaction-manager.index-admin', compact('data', 'title'));
     }
 
     public function individual()
     {
         $user = Auth::user();
-        $data = Transaction::select('transactions.*', 'admins.name as user_name','customers.name as customer_name')
+        $data = Transaction::select('transactions.*', 'admins.name as user_name', 'customers.name as customer_name')
             ->join('admins', 'admins.id', '=', 'transactions.user_id')
             ->join('customers', 'customers.id', '=', 'transactions.customer_id')
-            ->where('transactions.user_id',$user->id)
+            ->where('transactions.user_id', $user->id)
+            ->where('transactions.type', '<>', Transaction::$WITHDRAWAL)
             ->orderBy('transactions.created_at', 'DESC')
             ->paginate(20);
         $title = 'Danh sách giao dịch cá nhân';
-        return view('admin.page.transaction-manager.index', compact('data','title'));
+        return view('admin.page.transaction-manager.index', compact('data', 'title'));
     }
 
     /*
@@ -74,7 +76,7 @@ class TransactionController extends Controller
         $money = json_encode($money);
         $month = json_encode($month);
         $title = 'Thống kê giao dịch';
-        return view('admin.page.transaction-manager.manager', compact('money', 'month', 'revenues','title'));
+        return view('admin.page.transaction-manager.manager', compact('money', 'month', 'revenues', 'title'));
     }
 
     /**
@@ -86,7 +88,7 @@ class TransactionController extends Controller
     {
         $listUser = Admin::select('name', 'id')->pluck('name', 'id')->toArray();
         $title = 'Tạo giao dịch';
-        return view('admin.page.transaction-manager.create', compact('listUser','title'));
+        return view('admin.page.transaction-manager.create', compact('listUser', 'title'));
     }
 
     /**
@@ -115,12 +117,12 @@ class TransactionController extends Controller
         $model->amount = $request->amount;
         $model->type = $request->type;
         $model->status = Transaction::$STATUS_SUCCESS;
-        if($request->amount != 0){
-            $user = Admin::where('id',$request->user_id)->first();
-            if(!empty($user)){
-                if($request->type == Transaction::$TYPE_PLUS){
+        if ($request->amount != 0) {
+            $user = Admin::where('id', $request->user_id)->first();
+            if (!empty($user)) {
+                if ($request->type == Transaction::$TYPE_PLUS) {
                     $user->amount = (int)$user->amount + $request->amount;
-                }else{
+                } else {
                     $user->amount = (int)$user->amount - $request->amount;
                 }
                 $user->save();
@@ -153,7 +155,7 @@ class TransactionController extends Controller
         $model = Transaction::findOrFail($id);
         $listUser = Admin::select('name', 'id')->pluck('name', 'id')->toArray();
         $title = 'Sửa giao dịch';
-        return view('admin.page.transaction-manager.edit', compact('model','listUser','title'));
+        return view('admin.page.transaction-manager.edit', compact('model', 'listUser', 'title'));
     }
 
     /**
@@ -204,8 +206,19 @@ class TransactionController extends Controller
 
     public function listRequestPaid()
     {
-        $data = Customer::where('pay',Customer::$REQUESTPAID)->paginate(20);
+        $data = Customer::where('pay', Customer::$REQUESTPAID)->paginate(20);
         $title = 'Danh sách yêu cầu';
-        return view('admin.page.customer.index-admin', compact('data', 'title'));
+        return view('admin.page.transaction-manager.list-request-paid', compact('data', 'title'));
+    }
+
+    public function listWithdrawal()
+    {
+        $data = Transaction::select('transactions.*', 'admins.name as user_name')
+            ->join('admins', 'admins.id', '=', 'transactions.user_id')
+            ->where('transactions.type', Transaction::$WITHDRAWAL)
+            ->orderBy('transactions.created_at', 'DESC')
+            ->paginate(20);
+        $title = 'Danh sách yêu cầu rút tiền';
+        return view('admin.page.transaction-manager.list-withdrawal', compact('data', 'title'));
     }
 }

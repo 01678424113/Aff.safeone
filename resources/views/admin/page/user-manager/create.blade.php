@@ -76,7 +76,7 @@
                         </div>
                         <div class="portlet-body">
                             <!-- BEGIN FORM-->
-                            <form action="{{ route('user-admin.store') }}" method="post"
+                            <form action="{{ route('user-admin.doWithdrawal') }}" method="post"
                                   class="form-horizontal form-label-left">
                                 @csrf
                                 <div class="form-body">
@@ -94,6 +94,13 @@
                                         </label>
                                         <div class="col-md-4">
                                             <input name="email" type="text" class="form-control"/></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">Số dư
+                                        </label>
+                                        <div class="col-md-4">
+                                            <input name="amount" type="text" value="0" class="form-control"/>
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label col-md-3">Mật khẩu

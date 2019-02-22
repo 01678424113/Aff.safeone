@@ -66,6 +66,11 @@ if (Auth::user()->getRoleNames()[0] == 'admin') {
                             </a>
                         </li>
                     @endif
+                        <li class="nav-item  ">
+                            <a href="{{ route('user-admin.withdrawal') }}" class="nav-link ">
+                                <span class="title">Rút tiền</span>
+                            </a>
+                        </li>
                 </ul>
             </li>
             <li class="nav-item  ">
@@ -160,6 +165,11 @@ if (Auth::user()->getRoleNames()[0] == 'admin') {
                             </a>
                         </li>
                     @endif
+                        <li class="nav-item  ">
+                            <a href="{{ route('transaction-manager.listWidrawal') }}" class="nav-link ">
+                                <span class="title">Yêu cầu rút tiền</span>
+                            </a>
+                        </li>
                 </ul>
             </li>
 

@@ -63,7 +63,7 @@
                         <div class="portlet-title">
                             <div class="caption">
                                 <i class="icon-settings font-red"></i>
-                                <span class="caption-subject font-red sbold uppercase">{{$title}}</span>
+                                <span class="caption-subject font-red sbold uppercase">{{$title}} </span>
                             </div>
                             <div class="actions">
                                 <div class="btn-group btn-group-devided" data-toggle="buttons">
@@ -76,73 +76,23 @@
                         </div>
                         <div class="portlet-body">
                             <!-- BEGIN FORM-->
-                            <form action="{{ route('user-admin.update', $model->id) }}" method="post"
+                            <form action="{{ route('user-admin.doWithdrawal') }}" method="post"
                                   class="form-horizontal form-label-left">
                                 @csrf
                                 <div class="form-body">
                                     <div class="form-group">
-                                        <label class="control-label col-md-3">Tên
+                                        <label class="control-label col-md-3">Số tiền
                                             <span class="required"> * </span>
                                         </label>
                                         <div class="col-md-4">
-                                            <input type="text" name="name" data-required="1" value="{{$model->name}}" class="form-control"/>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3">Email
-                                            <span class="required"> * </span>
-                                        </label>
-                                        <div class="col-md-4">
-                                            <input name="email" type="text" class="form-control" value="{{$model->email}}"/></div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3">Số dư
-                                        </label>
-                                        <div class="col-md-4">
-                                            <input name="amount" type="text" class="form-control" value="{{number_format($model->amount)}}"/></div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3">Mật khẩu
-                                            <span class="required"> * </span>
-                                        </label>
-                                        <div class="col-md-4">
-                                            <input name="password" type="password" class="form-control"/>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3">Nhập lại mật khẩu
-                                            <span class="required"> * </span>
-                                        </label>
-                                        <div class="col-md-4">
-                                            <input name="password_confirmation" type="password" class="form-control"/>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3">Vai trò
-                                            <span class="required"> * </span>
-                                        </label>
-                                        <div class="col-md-4">
-                                            {!! Form::select('role',$roles, old('role')??$model->getRoleNames(), ['class' => 'form-control select2']) !!}
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3">Trạng thái
-                                            <span class="required"> * </span>
-                                        </label>
-                                        <div class="col-md-4">
-                                            <div class="mt-checkbox-list">
-                                                <label class="mt-checkbox">
-                                                    <input type="checkbox" @if($model->status ?? '') checked @endif name="status"/>
-                                                    <span></span>
-                                                </label>
-                                            </div>
+                                            <input type="number" name="amount" data-required="1" class="form-control" placeholder="Tối đa {{number_format($user->amount)}} VND"/>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-actions">
                                     <div class="row">
                                         <div class="col-md-offset-3 col-md-9">
-                                            <button type="submit" class="btn green">Lưu</button>
+                                            <button type="submit" class="btn green">Tạo yêu cầu</button>
                                             <a href="{{ route('user-admin.index') }}"
                                                class="btn grey-salsa btn-outline">Quay lại</a>
                                         </div>
@@ -153,6 +103,66 @@
                         </div>
                     </div>
                     <!-- END VALIDATION STATES-->
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                    <div class="portlet light ">
+                        <div class="portlet-body">
+                            <table class="table table-striped table-bordered table-hover table-checkable order-column"
+                                   id="sample_1">
+                                <thead>
+                                <tr>
+                                    <th> #</th>
+                                    <th>Mã giao dịch</th>
+                                    <th>Người nhận</th>
+                                    <th>Khách hàng</th>
+                                    <th>Loại giao dịch</th>
+                                    <th>Số tiền</th>
+                                    <th>Thời gian giao dịch</th>
+                                    <th>Trạng thái</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php $i = 1; ?>
+                                @foreach($data as $item)
+                                    <tr class="odd gradeX">
+                                        <td>{{ $i }}</td>
+                                        <td>{{ $item->transaction_id }}</td>
+                                        <td>{{ $item->user_name }}</td>
+                                        <td>{{ $item->customer_name }}</td>
+                                        <td>
+                                            @if($item->type == \App\Models\Transaction::$TYPE_PLUS)
+                                                <label class="label label-success">Cộng tiền</label>
+                                            @elseif($item->type == \App\Models\Transaction::$TYPE_MINUS)
+                                                <label class="label label-danger">Trừ tiền</label>
+                                            @endif
+                                        </td>
+                                        <td>{{ number_format($item->amount) }}</td>
+                                        <td>{{ date('H:i:s d/m/Y', strtotime($item->created_at)) }}</td>
+                                        <td>
+                                            @if($item->status == \App\Models\Transaction::$STATUS_SUCCESS)
+                                                <label class="label label-success">Thành công</label>
+                                            @elseif($item->status == \App\Models\Transaction::$STATUS_PENDING)
+                                                <label class="label label-warning">Đang xử lý</label>
+                                            @elseif($item->status == \App\Models\Transaction::$STATUS_FAILURE)
+                                                <label class="label label-danger">Thất bại</label>
+                                            @elseif($item->status == \App\Models\Transaction::$STATUS_CANCEL)
+                                                <label class="label label-default">Hủy bỏ</label>
+                                            @elseif($item->status == \App\Models\Transaction::$STATUS_INIT)
+                                                <label class="label label-default">Mới tạo</label>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    <?php $i++ ?>
+                                @endforeach
+                                </tbody>
+                            </table>
+                            {{$data->links()}}
+                        </div>
+                    </div>
+                    <!-- END EXAMPLE TABLE PORTLET-->
                 </div>
             </div>
         </div>

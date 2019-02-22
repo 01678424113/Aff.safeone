@@ -16,6 +16,7 @@ class Transaction extends Model
 
     public static $TYPE_MINUS = 1;
     public static $TYPE_PLUS = 2;
+    public static $WITHDRAWAL = 3;
 
     public static $STATUS_INIT = 0;
     public static $STATUS_SUCCESS = 1;
