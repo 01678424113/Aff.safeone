@@ -91,7 +91,6 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label col-md-3">Sắp xếp
-                                            <span class="required"> * </span>
                                         </label>
                                         <div class="col-md-4">
                                             <input name="sort_by" type="text" class="form-control"

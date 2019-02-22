@@ -74,7 +74,7 @@ class CampaignController extends Controller
         $model = new Campaign();
         $model->name = $request->name;
         $model->status = isset($request->status) ? Campaign::$ACTIVE : Campaign::$UN_ACTIVE;
-        $model->sort_by = $request->sort_by;
+        $model->sort_by = (empty($request->sort_by)) ? 100 : $request->sort_by;
         $model->root_url = $request->root_url;
         $model->category_id = !empty($request->category_id) ? $request->category_id : 1;
         $flag = $model->save();
@@ -130,7 +130,7 @@ class CampaignController extends Controller
         }
         $model->name = $request->name;
         $model->status = isset($request->status) ? Campaign::$ACTIVE : Campaign::$UN_ACTIVE;
-        $model->sort_by = $request->sort_by;
+        $model->sort_by = empty($request->sort_by) ? 100 : $request->sort_by;
         $model->root_url = $request->root_url;
         $model->category_id = !empty($request->category_id) ? $request->category_id : 1;
         $flag = $model->save();
@@ -148,6 +148,7 @@ class CampaignController extends Controller
      */
     public function destroy($id)
     {
+        return redirect()->back()->with('error', 'Chức năng này tạm thời bị khóa');
         $model = Campaign::find($id);
         if (!empty($model)) {
             $model->delete();
