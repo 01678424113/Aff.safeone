@@ -24,10 +24,8 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $data = Transaction::select('transactions.*', 'admins.name as user_name', 'customers.name as customer_name')
+        $data = Transaction::select('transactions.*', 'admins.name as user_name')
             ->join('admins', 'admins.id', '=', 'transactions.user_id')
-            ->join('customers', 'customers.id', '=', 'transactions.customer_id')
-            ->where('transactions.type', '<>', Transaction::$WITHDRAWAL)
             ->orderBy('transactions.created_at', 'DESC')
             ->paginate(20);
         $title = 'Danh sách giao dịch';
@@ -37,11 +35,9 @@ class TransactionController extends Controller
     public function individual()
     {
         $user = Auth::user();
-        $data = Transaction::select('transactions.*', 'admins.name as user_name', 'customers.name as customer_name')
+        $data = Transaction::select('transactions.*', 'admins.name as user_name')
             ->join('admins', 'admins.id', '=', 'transactions.user_id')
-            ->join('customers', 'customers.id', '=', 'transactions.customer_id')
             ->where('transactions.user_id', $user->id)
-            ->where('transactions.type', '<>', Transaction::$WITHDRAWAL)
             ->orderBy('transactions.created_at', 'DESC')
             ->paginate(20);
         $title = 'Danh sách giao dịch cá nhân';
@@ -183,6 +179,14 @@ class TransactionController extends Controller
         $model->save();
         //Save log
         return back()->with('success', 'Cập nhập giao dịch thành công');
+    }
+
+    public function updateWithdrawal(Request $request,$id)
+    {
+        $model = Transaction::findOrFail($id);
+        $model->status = $request->status;
+        $model->save();
+        return 'Cập nhập trạng thái thành công';
     }
 
     /**

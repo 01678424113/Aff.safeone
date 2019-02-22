@@ -115,7 +115,6 @@
                                     <th> #</th>
                                     <th>Mã giao dịch</th>
                                     <th>Người nhận</th>
-                                    <th>Khách hàng</th>
                                     <th>Loại giao dịch</th>
                                     <th>Số tiền</th>
                                     <th>Thời gian giao dịch</th>
@@ -130,12 +129,13 @@
                                         <td>{{ $i }}</td>
                                         <td>{{ $item->transaction_id }}</td>
                                         <td>{{ $item->user_name }}</td>
-                                        <td>{{ $item->customer_name }}</td>
                                         <td>
                                             @if($item->type == \App\Models\Transaction::$TYPE_PLUS)
                                                 <label class="label label-success">Cộng tiền</label>
                                             @elseif($item->type == \App\Models\Transaction::$TYPE_MINUS)
                                                 <label class="label label-danger">Trừ tiền</label>
+                                            @elseif($item->type == \App\Models\Transaction::$WITHDRAWAL)
+                                                <label class="label label-danger">Rút tiền</label>
                                             @endif
                                         </td>
                                         <td>{{ number_format($item->amount) }}</td>

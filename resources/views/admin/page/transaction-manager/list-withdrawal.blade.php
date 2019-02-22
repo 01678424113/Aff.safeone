@@ -79,7 +79,8 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="btn-group">
-                                            <a href="{{route('transaction-manager.create')}}" class="btn sbold green"> Thêm giao dịch
+                                            <a href="{{route('transaction-manager.create')}}" class="btn sbold green">
+                                                Thêm giao dịch
                                                 <i class="fa fa-plus"></i>
                                             </a>
                                         </div>
@@ -115,7 +116,6 @@
                                     <th> #</th>
                                     <th>Mã giao dịch</th>
                                     <th>Người nhận</th>
-                                    <th>Loại giao dịch</th>
                                     <th>Số tiền</th>
                                     <th>Thời gian giao dịch</th>
                                     <th>Trạng thái</th>
@@ -128,27 +128,25 @@
                                         <td>{{ $i }}</td>
                                         <td>{{ $item->transaction_id }}</td>
                                         <td>{{ $item->user_name }}</td>
-                                        <td>
-                                            @if($item->type == \App\Models\Transaction::$TYPE_PLUS)
-                                                <label class="label label-success">Cộng tiền</label>
-                                            @elseif($item->type == \App\Models\Transaction::$TYPE_MINUS)
-                                                <label class="label label-danger">Trừ tiền</label>
-                                            @endif
-                                        </td>
                                         <td>{{ number_format($item->amount) }}</td>
                                         <td>{{ date('H:i:s d/m/Y', strtotime($item->created_at)) }}</td>
                                         <td>
-                                            @if($item->status == \App\Models\Transaction::$STATUS_SUCCESS)
-                                                <label class="label label-success">Thành công</label>
-                                            @elseif($item->status == \App\Models\Transaction::$STATUS_PENDING)
-                                                <label class="label label-warning">Đang xử lý</label>
-                                            @elseif($item->status == \App\Models\Transaction::$STATUS_FAILURE)
-                                                <label class="label label-danger">Thất bại</label>
-                                            @elseif($item->status == \App\Models\Transaction::$STATUS_CANCEL)
-                                                <label class="label label-default">Hủy bỏ</label>
-                                            @elseif($item->status == \App\Models\Transaction::$STATUS_INIT)
-                                                <label class="label label-default">Mới tạo</label>
-                                            @endif
+                                            <form action="{{route('transaction-manager.updateWithdrawal',['id'=>$item->id])}}"
+                                                  method="post"
+                                                  class="transaction-{{$item->id}}">
+                                                @csrf
+                                                <select name="status" id="" class="form-control"
+                                                        data-id=".transaction-{{$item->id}}">
+                                                    <option value="{{\App\Models\Transaction::$STATUS_SUCCESS}}"
+                                                            @if($item->status == \App\Models\Transaction::$STATUS_SUCCESS) selected @endif>
+                                                        Thành công
+                                                    </option>
+                                                    <option value="{{\App\Models\Transaction::$STATUS_PENDING}}"
+                                                            @if($item->status == \App\Models\Transaction::$STATUS_PENDING) selected @endif>
+                                                        Đang xử lý
+                                                    </option>
+                                                </select>
+                                            </form>
                                         </td>
                                     </tr>
                                     <?php $i++ ?>
@@ -164,4 +162,21 @@
         </div>
         <!-- END CONTENT BODY -->
     </div>
+@endsection
+@section('script')
+    <script>
+        $('select').change(function () {
+            var id = $(this).attr('data-id');
+            var url = $(id).attr('action');
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: $(id).serialize(),
+                success: function (res) {
+                    alert(res);
+                    console.log(res);
+                }
+            });
+        });
+    </script>
 @endsection

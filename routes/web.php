@@ -97,6 +97,7 @@ Route::group(['middleware' => ['auth','permissions']], function () {
             Route::get('show/{id}', 'TransactionController@show')->name('transaction-manager.show');
             Route::get('{id}/edit', 'TransactionController@edit')->name('transaction-manager.edit');
             Route::post('update/{id}', 'TransactionController@update')->name('transaction-manager.update');
+            Route::post('update-withdrawal/{id}', 'TransactionController@updateWithdrawal')->name('transaction-manager.updateWithdrawal');
             Route::get('destroy/{id}', 'TransactionController@destroy')->name('transaction-manager.destroy');
             Route::get('list-request-paid', 'TransactionController@listRequestPaid')->name('transaction-manager.listRequestPaid');
             Route::get('list-withdrawal', 'TransactionController@listWithdrawal')->name('transaction-manager.listWidrawal');

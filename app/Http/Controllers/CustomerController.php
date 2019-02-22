@@ -19,7 +19,7 @@ class CustomerController extends Controller
         $campaign = Campaign::where('id', $campaign_id)->first();
         if (isset($campaign)) {
             $title = 'Danh sách khách hàng';
-            $data = Customer::select('*')->where('campaign_id',$campaign_id)->paginate(20);
+            $data = Customer::select('*')->where('campaign_id', $campaign_id)->paginate(20);
             return view('admin.page.customer.index-admin', compact('data', 'title'));
         } else {
             return redirect()->back()->with('error', 'Đã xảy ra lỗi');
@@ -30,14 +30,14 @@ class CustomerController extends Controller
     {
         $campaign = Campaign::where('id', $campaign_id)->first();
         if (isset($campaign)) {
-            $affiliate = Affiliate::where('user_id',\Auth::user()->id)->where('campaign_id',$campaign_id)->first();
+            $affiliate = Affiliate::where('user_id', \Auth::user()->id)->where('campaign_id', $campaign_id)->first();
             if (isset($affiliate)) {
                 $title = 'Danh sách khách hàng';
                 $data = Customer::select('*')
-                    ->where('aff_id',$affiliate->aff_id)
+                    ->where('aff_id', $affiliate->aff_id)
                     ->get();
                 return view('admin.page.customer.index', compact('data', 'title'));
-            }else{
+            } else {
                 return redirect()->back()->with('error', 'Đã xảy ra lỗi');
             }
         } else {
@@ -70,6 +70,17 @@ class CustomerController extends Controller
 
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required',
+            'phone' => 'required',
+            'status' => 'required',
+            'total' => 'numeric',
+            'percent' => 'numeric',
+        ]);
+        if ($validator->fails()) {
+            return 'Đã xảy ra lỗi';
+        }
         $customer = Customer::where('id', $id)->first();
         if (isset($customer) && $customer->pay != Customer::$PAID) {
             $customer->name = $request->name;
@@ -88,15 +99,15 @@ class CustomerController extends Controller
         }
     }
 
-    public function requestPay(Request $request,$id)
+    public function requestPay(Request $request, $id)
     {
         $customer = Customer::where('id', $id)->first();
         if (isset($customer) && $customer->pay != Customer::$PAID) {
             $customer->pay = Customer::$REQUESTPAID;
             $customer->save();
-            return redirect()->back()->with('success','Yêu cầu thành công');
-        }else{
-            return redirect()->back()->with('error','Đã xảy ra lỗi');
+            return redirect()->back()->with('success', 'Yêu cầu thành công');
+        } else {
+            return redirect()->back()->with('error', 'Đã xảy ra lỗi');
         }
     }
 
