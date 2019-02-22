@@ -98,6 +98,7 @@
                                                 <option value="{{\App\Models\Transaction::$TYPE_MINUS}}">Trừ
                                                     tiền
                                                 </option>
+                                                <option value="{{\App\Models\Transaction::$WITHDRAWAL}}">Rút tiền</option>
                                             </select>
                                         </div>
                                     </div>
@@ -112,14 +113,8 @@
                                                 <option value="{{\App\Models\Transaction::$STATUS_PENDING}}">
                                                     Đang xử lý
                                                 </option>
-                                                <option value="{{\App\Models\Transaction::$STATUS_FAILURE}}">
-                                                    Thất bại
-                                                </option>
                                                 <option value="{{\App\Models\Transaction::$STATUS_CANCEL}}">
                                                     Hủy bỏ
-                                                </option>
-                                                <option value="{{\App\Models\Transaction::$STATUS_INIT}}">
-                                                    Mới tạo
                                                 </option>
                                             </select>
                                         </div>

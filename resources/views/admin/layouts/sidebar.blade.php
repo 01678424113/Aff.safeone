@@ -4,6 +4,7 @@ if (Auth::user()->getRoleNames()[0] == 'admin') {
         'home',
         'user-admin.index',
         'user-admin.create',
+        'user-admin.withdrawal',
         'role.index',
         'permission.index',
         'category.index',
@@ -11,11 +12,13 @@ if (Auth::user()->getRoleNames()[0] == 'admin') {
         'campaign.myCampaign',
         'transaction-manager.index',
         'transaction-manager.individual',
-        'transaction-manager.listRequestPaid'
+        'transaction-manager.listRequestPaid',
+        'transaction-manager.listWithdrawal',
     ];
 } elseif (Auth::user()->getRoleNames()[0] == 'user') {
     $routes = [
         'home',
+        'user-admin.withdrawal',
         'category.index',
         'campaign.index',
         'campaign.myCampaign',
@@ -66,11 +69,13 @@ if (Auth::user()->getRoleNames()[0] == 'admin') {
                             </a>
                         </li>
                     @endif
+                    @if(in_array('user-admin.withdrawal',$routes))
                         <li class="nav-item  ">
                             <a href="{{ route('user-admin.withdrawal') }}" class="nav-link ">
                                 <span class="title">Rút tiền</span>
                             </a>
                         </li>
+                    @endif
                 </ul>
             </li>
             <li class="nav-item  ">
@@ -165,11 +170,13 @@ if (Auth::user()->getRoleNames()[0] == 'admin') {
                             </a>
                         </li>
                     @endif
+                    @if(in_array('transaction-manager.listWithdrawal',$routes))
                         <li class="nav-item  ">
-                            <a href="{{ route('transaction-manager.listWidrawal') }}" class="nav-link ">
+                            <a href="{{ route('transaction-manager.listWithdrawal') }}" class="nav-link ">
                                 <span class="title">Yêu cầu rút tiền</span>
                             </a>
                         </li>
+                    @endif
                 </ul>
             </li>
 

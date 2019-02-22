@@ -98,7 +98,7 @@ class TransactionController extends Controller
         $validator = Validator::make($request->all(), [
             'note' => [new Utf8StringRule(), 'max:255'],
             'amount' => 'required|numeric',
-            'type' => [Rule::in([Transaction::$TYPE_MINUS, Transaction::$TYPE_PLUS])]
+            'type' => [Rule::in([Transaction::$TYPE_MINUS, Transaction::$TYPE_PLUS, Transaction::$WITHDRAWAL])]
         ]);
         if ($validator->fails()) {
             $error = Helpers::getValidationError($validator);
@@ -167,7 +167,7 @@ class TransactionController extends Controller
         $validator = Validator::make($request->all(), [
             'note' => [new Utf8StringRule(), 'max:255'],
             'amount' => 'required|numeric',
-            'type' => [Rule::in([Transaction::$TYPE_MINUS, Transaction::$TYPE_PLUS])]
+            'type' => [Rule::in([Transaction::$TYPE_MINUS, Transaction::$TYPE_PLUS, Transaction::$WITHDRAWAL])]
         ]);
         if ($validator->fails()) {
             $error = Helpers::getValidationError($validator);
@@ -181,7 +181,7 @@ class TransactionController extends Controller
         return back()->with('success', 'Cập nhập giao dịch thành công');
     }
 
-    public function updateWithdrawal(Request $request,$id)
+    public function updateWithdrawal(Request $request, $id)
     {
         $model = Transaction::findOrFail($id);
         $model->status = $request->status;
@@ -197,11 +197,10 @@ class TransactionController extends Controller
      */
     public function destroy($id)
     {
-        return back()->with('error', 'Đã xảy ra lỗi');
+        return back()->with('error', 'Chức năng này tạm thời bị khóa');
         $transaction = Transaction::findOrFail($id);
         try {
             $transaction->delete();
-            //Save log
             return back()->with('success', 'Xóa giao dịch thành công');
         } catch (\Exception $e) {
             return back()->with('error', 'Đã xảy ra lỗi');

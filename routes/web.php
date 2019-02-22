@@ -100,7 +100,7 @@ Route::group(['middleware' => ['auth','permissions']], function () {
             Route::post('update-withdrawal/{id}', 'TransactionController@updateWithdrawal')->name('transaction-manager.updateWithdrawal');
             Route::get('destroy/{id}', 'TransactionController@destroy')->name('transaction-manager.destroy');
             Route::get('list-request-paid', 'TransactionController@listRequestPaid')->name('transaction-manager.listRequestPaid');
-            Route::get('list-withdrawal', 'TransactionController@listWithdrawal')->name('transaction-manager.listWidrawal');
+            Route::get('list-withdrawal', 'TransactionController@listWithdrawal')->name('transaction-manager.listWithdrawal');
         });
 
         Route::group(['prefix' => 'customer'], function () {

@@ -97,6 +97,9 @@
                                                 <option {{($model->status == \App\Models\Transaction::$TYPE_MINUS) ? 'selected' : ''}} value="{{\App\Models\Transaction::$TYPE_MINUS}}">Trừ
                                                     tiền
                                                 </option>
+                                                <option {{($model->status == \App\Models\Transaction::$WITHDRAWAL) ? 'selected' : ''}} value="{{\App\Models\Transaction::$WITHDRAWAL}}">Trừ
+                                                    tiền
+                                                </option>
                                             </select>
                                         </div>
                                     </div>
@@ -110,14 +113,8 @@
                                                 <option {{($model->status == \App\Models\Transaction::$STATUS_PENDING) ? 'selected' : ''}} value="{{\App\Models\Transaction::$STATUS_PENDING}}">
                                                     Đang xử lý
                                                 </option>
-                                                <option {{($model->status == \App\Models\Transaction::$STATUS_FAILURE) ? 'selected' : ''}} value="{{\App\Models\Transaction::$STATUS_FAILURE}}">
-                                                    Thất bại
-                                                </option>
                                                 <option {{($model->status == \App\Models\Transaction::$STATUS_CANCEL) ? 'selected' : ''}} value="{{\App\Models\Transaction::$STATUS_CANCEL}}">
                                                     Hủy bỏ
-                                                </option>
-                                                <option {{($model->status == \App\Models\Transaction::$STATUS_INIT) ? 'selected' : ''}}  value="{{\App\Models\Transaction::$STATUS_INIT}}">
-                                                    Mới tạo
                                                 </option>
                                             </select>
                                         </div>
