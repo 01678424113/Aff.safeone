@@ -5,8 +5,8 @@
         <div class="page-content">
             <!-- BEGIN PAGE HEADER-->
             <!-- BEGIN THEME PANEL -->
-            @include('admin.layouts.theme-panel')
-            <!-- END THEME PANEL -->
+        @include('admin.layouts.theme-panel')
+        <!-- END THEME PANEL -->
             <h1 class="page-title"> {{$title}}
                 <small>tài khoản</small>
             </h1>
@@ -29,25 +29,25 @@
                             Actions
                             <i class="fa fa-angle-down"></i>
                         </button>
-                 {{--       <ul class="dropdown-menu pull-right" role="menu">
-                            <li>
-                                <a href="#">
-                                    <i class="icon-bell"></i> Action</a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <i class="icon-shield"></i> Another action</a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <i class="icon-user"></i> Something else here</a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <i class="icon-bag"></i> Separated link</a>
-                            </li>
-                        </ul>--}}
+                        {{--       <ul class="dropdown-menu pull-right" role="menu">
+                                   <li>
+                                       <a href="#">
+                                           <i class="icon-bell"></i> Action</a>
+                                   </li>
+                                   <li>
+                                       <a href="#">
+                                           <i class="icon-shield"></i> Another action</a>
+                                   </li>
+                                   <li>
+                                       <a href="#">
+                                           <i class="icon-user"></i> Something else here</a>
+                                   </li>
+                                   <li class="divider"></li>
+                                   <li>
+                                       <a href="#">
+                                           <i class="icon-bag"></i> Separated link</a>
+                                   </li>
+                               </ul>--}}
                     </div>
                 </div>
             </div>
@@ -79,7 +79,8 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="btn-group">
-                                            <a href="{{route('user-admin.create')}}" class="btn sbold green"> Thêm tài khoản
+                                            <a href="{{route('user-admin.create')}}" class="btn sbold green"> Thêm tài
+                                                khoản
                                                 <i class="fa fa-plus"></i>
                                             </a>
                                         </div>
@@ -146,7 +147,8 @@
                                         <td>
                                             <div class="">
                                                 <label>
-                                                    <input type="checkbox"   @if($item->status ?? '') checked @endif class="make-switch" data-size="small">
+                                                    <input type="checkbox" @if($item->status ?? '') checked
+                                                           @endif class="make-switch" data-size="small">
                                                 </label>
                                             </div>
                                         </td>
@@ -190,6 +192,7 @@
                                 @endforeach
                                 </tbody>
                             </table>
+                            {{$data->links()}}
                         </div>
                     </div>
                     <!-- END EXAMPLE TABLE PORTLET-->

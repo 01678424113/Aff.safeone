@@ -60,9 +60,9 @@ class UserAdminController extends Controller
         $model = new Admin();
         $model->name = $request->name;
         $model->email = $request->email;
-        $model->amount = str_replace(',', '', $request->amount);
+        $model->amount = (int)str_replace(',', '', $request->amount);
         $model->password = bcrypt($request->password);
-        $model->status = isset($request->status) ? 1 : 0;
+        $model->status = isset($request->status) ? Admin::$ACTIVE_STATUS : Admin::$UNACTIVE_STATUS;
         $model->amount = 0;
         $flag = $model->save();
 
@@ -124,7 +124,7 @@ class UserAdminController extends Controller
 
         $model->name = $request->name;
         $model->email = $request->email;
-        $model->amount = str_replace(',', '', $request->amount);
+        $model->amount = (int)str_replace(',', '', $request->amount);
         $model->password = isset($request->password) ? bcrypt($request->password) : $model->password;
         $model->status = isset($request->status) ? 1 : 0;
         $flag = $model->save();
@@ -149,14 +149,19 @@ class UserAdminController extends Controller
      */
     public function destroy($id)
     {
+        return back()->with('error', 'Chức năng này tạm thời bị khóa');
+
         $model = Admin::findOrFail($id);
-
-        $flag = $model->delete();
-
-        if ($flag) {
-            return back()->with('success', 'Xoá tài khoản thành công');
+        if($model->getRoleNames() == 'admin'){
+            return back()->with('error', 'Không thể xóa tài khoản admin');
+        }else{
+            $flag = $model->delete();
+            if ($flag) {
+                return back()->with('success', 'Xoá tài khoản thành công');
+            }else{
+                return back()->with('error', 'Xoá tài khoản không thành công');
+            }
         }
-        return back()->with('error', 'Xoá tài khoản không thành công');
     }
 
     public function withdrawal()
@@ -184,7 +189,7 @@ class UserAdminController extends Controller
             return back()->with(['error' => $error])->withInput(Input::all());
         }
         $user = \Auth::user();
-        if ($user->amount >= $request->amount) {
+        if ($user->amount >= $request->amount && $request->amount > 0) {
             $user->amount = (int)$user->amount - (int)$request->amount;
             $user->save();
 

@@ -15,7 +15,7 @@ class Admin extends Authenticatable
 
     protected static function getAllData()
     {
-        return Admin::select('*')->cursor();
+        return Admin::select('*')->paginate(20);
     }
 
     protected $fillable = [
