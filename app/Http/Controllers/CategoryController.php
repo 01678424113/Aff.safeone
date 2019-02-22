@@ -146,6 +146,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
+        return back()->with('error', 'Tính năng này tạm thời bị khóa');
         $model = Category::findOrFail($id);
 
         $flag = $model->delete();
@@ -153,7 +154,7 @@ class CategoryController extends Controller
         if ($flag) {
             return back()->with('success', 'Xoá dịch vụ thành công');
         }
-        return back()->with('warning', 'Xoá dịch vụ không thành công');
+        return back()->with('error', 'Xoá dịch vụ không thành công');
     }
 
     function getSlug($str, $options = array())
