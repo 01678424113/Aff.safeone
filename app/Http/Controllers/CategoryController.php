@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Libs\Helpers;
+use App\Models\Campaign;
 use App\Models\Category;
 use App\Rules\Utf8StringRule;
 use Exception;
@@ -104,7 +105,7 @@ class CategoryController extends Controller
 
         $validator = Validator::make($request->all(), [
             'parent_id' => ['nullable', 'integer'],
-            'name' => ['required', 'min:2', 'max:191', 'unique:categories,name,' . $id],
+            'name' => ['required', 'min:2', 'max:191', 'unique:categories,name' . $id],
             'slug' => ['required', 'unique:categories,slug,' . $id]
         ]);
 
@@ -148,9 +149,7 @@ class CategoryController extends Controller
     {
         return back()->with('error', 'Tính năng này tạm thời bị khóa');
         $model = Category::findOrFail($id);
-
         $flag = $model->delete();
-
         if ($flag) {
             return back()->with('success', 'Xoá dịch vụ thành công');
         }

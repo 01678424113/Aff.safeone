@@ -63,7 +63,7 @@ class UserAdminController extends Controller
         $model->amount = (int)str_replace(',', '', $request->amount);
         $model->password = bcrypt($request->password);
         $model->status = isset($request->status) ? Admin::$ACTIVE_STATUS : Admin::$UNACTIVE_STATUS;
-        $model->amount = 0;
+        $model->amount = $request->amount;
         $flag = $model->save();
 
         $role = $request->role;

@@ -43,7 +43,6 @@ class CustomerController extends Controller
         } else {
             return redirect()->back()->with('error', 'Đã xảy ra lỗi');
         }
-
     }
 
     public function store(Request $request)
@@ -75,8 +74,8 @@ class CustomerController extends Controller
             'email' => 'required',
             'phone' => 'required',
             'status' => 'required',
-            'total' => 'numeric',
-            'percent' => 'numeric',
+            'total' => 'nullable|numeric',
+            'percent' => 'nullable|numeric',
         ]);
         if ($validator->fails()) {
             return 'Đã xảy ra lỗi';
@@ -96,6 +95,21 @@ class CustomerController extends Controller
             return 'Cập nhập thành công';
         } else {
             return 'Đã xảy ra lỗi';
+        }
+    }
+    public function destroy($id)
+    {
+        $model = Customer::find($id);
+        if (!empty($model)) {
+            try{
+                Transaction::where('customer_id',$id)->delete();
+                $model->delete();
+            }catch (\Exception $e){
+                return redirect()->back()->with('error', 'Đã xảy ra lỗi');
+            }
+            return redirect()->back()->with('success', 'Xóa khách hàng thành công');
+        } else {
+            return redirect()->back()->with('error', 'Khách hàng không tồn tại');
         }
     }
 

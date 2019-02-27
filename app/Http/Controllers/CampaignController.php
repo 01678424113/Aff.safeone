@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Libs\Helpers;
 use App\Models\Admin;
+use App\Models\Affiliate;
 use App\Models\Campaign;
 use App\Models\Category;
+use App\Models\Customer;
 use App\Models\UserCampaign;
 use App\Rules\Utf8StringRule;
 use Illuminate\Http\Request;

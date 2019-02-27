@@ -126,6 +126,7 @@
                                     <th> Hoa hồng(%)</th>
                                     <th> Trạng thái</th>
                                     <th> Thanh toán</th>
+                                    <th> Hành động</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -213,6 +214,38 @@
                                                     </button>
                                                 </form>
                                             @endif
+                                        </td>
+                                        <td>
+                                            <button type="button" data-toggle="modal"
+                                                    data-target="#myModal-{{$item->id}}"
+                                                    class="btn btn-xs btn-danger"><i
+                                                        class="fa fa-times"></i></button>
+                                            <div id="myModal-{{$item->id}}" class="modal fade" role="dialog">
+                                                <div class="modal-dialog">
+                                                    <form action="{{route('customer.destroy',['id'=>$item->id])}}"
+                                                          method="get">
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close"
+                                                                        data-dismiss="modal">&times;
+                                                                </button>
+                                                                <h4 class="modal-title">Xóa</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <p>Bạn muốn xóa khách hàng này?</p>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-default"
+                                                                        data-dismiss="modal">Hủy
+                                                                </button>
+                                                                <button type="submit" class="btn btn-danger">Tiếp tục
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                     <?php $i++ ?>

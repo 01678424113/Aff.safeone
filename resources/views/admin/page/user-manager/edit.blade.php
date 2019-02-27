@@ -85,7 +85,7 @@
                                             <span class="required"> * </span>
                                         </label>
                                         <div class="col-md-4">
-                                            <input type="text" name="name" data-required="1" value="{{$model->name}}" class="form-control"/>
+                                            <input type="text" name="name" required value="{{$model->name}}" class="form-control"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -93,7 +93,7 @@
                                             <span class="required"> * </span>
                                         </label>
                                         <div class="col-md-4">
-                                            <input name="email" type="text" class="form-control" value="{{$model->email}}"/></div>
+                                            <input name="email" type="text" required class="form-control" value="{{$model->email}}"/></div>
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label col-md-3">Số dư
@@ -103,7 +103,6 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label col-md-3">Mật khẩu
-                                            <span class="required"> * </span>
                                         </label>
                                         <div class="col-md-4">
                                             <input name="password" type="password" class="form-control"/>
@@ -111,7 +110,6 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label col-md-3">Nhập lại mật khẩu
-                                            <span class="required"> * </span>
                                         </label>
                                         <div class="col-md-4">
                                             <input name="password_confirmation" type="password" class="form-control"/>

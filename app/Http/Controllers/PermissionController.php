@@ -122,10 +122,9 @@ class PermissionController extends Controller
      */
     public function destroy($id)
     {
+        return back()->with('error', 'Chức năng này tạm thời bị khóa');
         $model = Permission::findOrFail($id);
-
         $flag = $model->delete();
-
         if ($flag) {
             return back()->with('success', 'Xoá quyền thành công');
         }
@@ -154,7 +153,7 @@ class PermissionController extends Controller
                 }
             }
         }
-        return redirect()->back()->with('success', 'Cập nhân quyền thành công');
+        return redirect()->back()->with('success', 'Cập nhập quyền thành công');
     }
 
     /**

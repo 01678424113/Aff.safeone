@@ -127,12 +127,12 @@ class RoleController extends Controller
     public function destroy($id)
     {
         $role = Role::find($id);
-        if($id != 1){
-            /*$role->delete();
-            AdminModelHasRoles::where('role_id',$id)->delete();*/
-            return redirect()->back()->with('success','Chức năng này hiện tạm bị khóa');
+        if($id != 1 && $id != 2 && $id != 3){
+            $role->delete();
+            AdminModelHasRoles::where('role_id',$id)->delete();
+            return redirect()->back()->with('success','Xóa vai trò thành công');
         }else{
-            return redirect()->back()->with('error','Không thể xóa quyền admin');
+            return redirect()->back()->with('error','Không thể xóa vai trò mặc định');
         }
     }
 }

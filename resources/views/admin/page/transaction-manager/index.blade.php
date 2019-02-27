@@ -114,7 +114,6 @@
                                 <tr>
                                     <th> #</th>
                                     <th>Mã giao dịch</th>
-                                    <th>Người nhận</th>
                                     <th>Loại giao dịch</th>
                                     <th>Số tiền</th>
                                     <th>Thời gian giao dịch</th>
@@ -127,7 +126,6 @@
                                     <tr class="odd gradeX">
                                         <td>{{ $i }}</td>
                                         <td>{{ $item->transaction_id }}</td>
-                                        <td>{{ $item->user_name }}</td>
                                         <td>
                                             @if($item->type == \App\Models\Transaction::$TYPE_PLUS)
                                                 <label class="label label-success">Cộng tiền</label>

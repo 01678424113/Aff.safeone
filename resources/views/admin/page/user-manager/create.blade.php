@@ -76,7 +76,7 @@
                         </div>
                         <div class="portlet-body">
                             <!-- BEGIN FORM-->
-                            <form action="{{ route('user-admin.doWithdrawal') }}" method="post"
+                            <form action="{{ route('user-admin.store') }}" method="post"
                                   class="form-horizontal form-label-left">
                                 @csrf
                                 <div class="form-body">
@@ -85,7 +85,7 @@
                                             <span class="required"> * </span>
                                         </label>
                                         <div class="col-md-4">
-                                            <input type="text" name="name" data-required="1" class="form-control"/>
+                                            <input type="text" name="name" required class="form-control"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -93,7 +93,7 @@
                                             <span class="required"> * </span>
                                         </label>
                                         <div class="col-md-4">
-                                            <input name="email" type="text" class="form-control"/></div>
+                                            <input name="email" type="text" required class="form-control"/></div>
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label col-md-3">Số dư
@@ -107,7 +107,7 @@
                                             <span class="required"> * </span>
                                         </label>
                                         <div class="col-md-4">
-                                            <input name="password" type="password" class="form-control"/>
+                                            <input name="password" type="password" required class="form-control"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -115,7 +115,7 @@
                                             <span class="required"> * </span>
                                         </label>
                                         <div class="col-md-4">
-                                            <input name="password_confirmation" type="password" class="form-control"/>
+                                            <input name="password_confirmation" type="password" required class="form-control"/>
                                         </div>
                                     </div>
                                     <div class="form-group">

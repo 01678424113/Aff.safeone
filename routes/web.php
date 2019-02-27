@@ -107,6 +107,7 @@ Route::group(['middleware' => ['auth','permissions']], function () {
             Route::get('/admin/{campaign_id}', 'CustomerController@indexAdmin')->name('customer.indexAdmin');
             Route::get('/{campaign_id}', 'CustomerController@index')->name('customer.index');
             Route::post('/update/{id}', 'CustomerController@update')->name('customer.update');
+            Route::get('/destroy/{id}', 'CustomerController@destroy')->name('customer.destroy');
             Route::post('/request-pay/{id}', 'CustomerController@requestPay')->name('customer.requestPay');
             Route::post('/pay/{id}', 'CustomerController@pay')->name('customer.pay');
         });
