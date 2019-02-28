@@ -85,7 +85,8 @@
                                             <span class="required"> * </span>
                                         </label>
                                         <div class="col-md-4">
-                                            <input type="text" name="name" data-required="1" value="{{$role->name}}" class="form-control"/>
+                                            <input type="text" name="name" data-required="1" value="{{$role->name}}"
+                                                   class="form-control"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -97,7 +98,8 @@
                                                 <div class="col-md-6">
                                                     <div class="mt-checkbox-list">
                                                         <label class="mt-checkbox">
-                                                            <input type="checkbox" value="{{$permission->id}}" {{($role->hasPermissionTo($permission->name)) ? 'checked' : ''}} name="permissions[]"/>
+                                                            <input type="checkbox" value="{{$permission->id}}"
+                                                                   {{($role->hasPermissionTo($permission->name)) ? 'checked' : ''}} name="permissions[]"/>
                                                             <span></span>{{$permission->note}}
                                                         </label>
                                                     </div>
@@ -114,6 +116,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
                             </form>
                             <!-- END FORM-->
                         </div>
